@@ -1,6 +1,10 @@
 # Prerequisites
 *.d
 
+# Mac OS hidden files
+.DS_Store
+._.DS_Store
+
 # Object files
 *.o
 *.ko
