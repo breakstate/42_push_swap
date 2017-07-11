@@ -6,11 +6,11 @@
 #    By: lvan-gen <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/29 12:53:43 by lvan-gen          #+#    #+#              #
-#    Updated: 2017/07/11 10:27:59 by jdamhuis         ###   ########.fr        #
+#    Updated: 2017/07/11 10:41:27 by jdamhuis         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS	=	ft_memset.c		\
+SRC1	=	ft_memset.c		\
 			ft_bzero.c		\
 			ft_memcpy.c		\
 			ft_memccpy.c	\
@@ -29,8 +29,8 @@ SRCS	=	ft_memset.c		\
 			ft_strstr.c		\
 			ft_strnstr.c	\
 			ft_strcmp.c		\
-			ft_strncmp.c	\
-			ft_atoi.c		\
+			ft_strncmp.c
+SRC2	=	ft_atoi.c		\
 			ft_isalpha.c	\
 			ft_isupper.c	\
 			ft_islower.c	\
@@ -49,8 +49,8 @@ SRCS	=	ft_memset.c		\
 			ft_strclr.c		\
 			ft_striter.c	\
 			ft_striteri.c	\
-			ft_strmap.c		\
-			ft_strmapi.c	\
+			ft_strmap.c
+SRC3	=	ft_strmapi.c	\
 			ft_strequ.c		\
 			ft_strnequ.c	\
 			ft_strsub.c		\
@@ -69,8 +69,8 @@ SRCS	=	ft_memset.c		\
 			ft_lstdelone.c	\
 			ft_lstdel.c		\
 			ft_lstadd.c		\
-			ft_lstiter.c	\
-			ft_lstmap.c		\
+			ft_lstiter.c	
+SRC4	=	ft_lstmap.c		\
 			ft_strnlen.c	\
 			ft_abs.c		\
 			ft_realloc.c	\
@@ -81,34 +81,36 @@ SRCS	=	ft_memset.c		\
 			ft_make_2d_arr.c\
 			get_next_line.c	\
 			ft_free_2d_arr.c\
-			ft_dup_2d_arr.c
+			ft_dup_2d_arr.c	\
+
+SRCS	=	$(SRC1) $(SRC2) $(SRC3) $(SRC4)
 
 OBJ 	=	${SRCS:.c=.o}
 
 CFLAGS 	= 	-Werror -Wextra -Wall -c
+
 HEAD 	=	libft.h
+
 NAME	=	libft.a
 
 all: $(NAME)
 
 $(NAME): $(SRCS) Makefile
-	@clear
-	@echo " -----> compliling libft.a <-------"
+	@echo "------->compliling libft.a<-------"
 	@gcc $(CFLAGS) $(SRCS) -I includes/
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
-	@echo "------>libft.a compiled<------"
-
+	@echo "-------->libft.a compiled<--------"
 
 clean:
 	@rm -rf $(OBJ)
-	@echo "------>libft cleaned<------"
+	@echo "--------->libft cleaned<----------"
 
 fclean: clean
 	@rm -rf $(NAME)
-	@echo "------>really cleaned<------"
+	@echo "--------->really cleaned<---------"
 
 re: fclean all
-	@echo "------>libft recompiled<------"
+	@echo "-------->libft recompiled<--------"
 
 .PHONY: clean
