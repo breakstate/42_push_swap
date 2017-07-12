@@ -19,6 +19,8 @@
 # define TRUE 1
 # define FALSE 0
 
+typedef int t_bool;
+
 typedef struct		s_list
 {
 	void			*content;

@@ -10,14 +10,29 @@
 */
 
 void			apply_rule(char *rule, t_stacks *stacks);
+
+/*
+**	in file stack_a_rules.c
+*/
+
 void			sa(t_stacks *stacks);
 void			pa(t_stacks *stacks);
 void			ra(t_stacks *stacks);
 void			rra(t_stacks *stacks);
+
+/*
+**	in file stack_b_rules.c
+*/
+
 void			sb(t_stacks *stacks);
 void			pb(t_stacks *stacks);
 void			rb(t_stacks *stacks);
 void			rrb(t_stacks *stacks);
+
+/*
+**	in file stack_ab_rules.c
+*/
+
 void			ss(t_stacks *stacks);
 void			rr(t_stacks *stacks);
 void			rrr(t_stacks *stacks);
