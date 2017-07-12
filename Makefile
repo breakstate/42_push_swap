@@ -10,7 +10,7 @@ INCLUDE = ./
 
 OBJS = $(SRCS:.c=.o)
 
-# # HEADER = ./
+HEADER = ./
 
 LIBFT_INC = ./libft/includes
 
