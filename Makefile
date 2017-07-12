@@ -1,6 +1,7 @@
 NAME = 
 
-SRCS = 
+SRCS	=	stack_a_rules.c	\
+			rules.c			\
 
 CC = gcc
 
@@ -10,7 +11,7 @@ INCLUDE = ./
 
 OBJS = $(SRCS:.c=.o)
 
-HEADER = ./
+HEADER = ./push_swap.h
 
 LIBFT_INC = ./libft/includes
 
