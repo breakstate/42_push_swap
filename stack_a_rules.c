@@ -32,3 +32,9 @@ void	pa(t_stacks *stacks)
 	stacks->stack_a[temp2 + 1] = stacks->stack_b[temp];
 	stacks->stack_b[temp] = INT_MIN;
 }
+
+void	ra(t_stacks *stacks)
+{}
+
+void	rra(t_stacks *stacks)
+{}

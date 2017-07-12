@@ -19,41 +19,6 @@ becomes the first one.
 rrr : rra and rrb at the same time.
 
 
-
-static void	stack_b_rules(char *rule, t_stacks *stacks)
-{
-	int		temp;
-	int		temp2;
-
-	temp = 0;
-	if (ft_strcmp(rule, "sb") == 0)
-	{
-		if (stacks->stack_b[1] == INT_MIN)
-			return ;
-		temp = stacks->stack_b[1];
-		stacks->stack_b[1] = stacks->stack_b[0];
-		stacks->stack_b[0] = temp;
-	}
-	if (ft_strcmp(rule, "pb") == 0)
-	{
-		temp = 0;
-		temp2 = 0;
-		if (stacks->stack_a[stacks->size_of_stacks - 1] == INT_MIN)
-			return ;
-		while (stacks->stack_a[temp] == INT_MIN)
-			temp++;
-		while (stacks->stack_b[temp2] == INT_MIN)
-			temp2++;
-		stacks->stack_b[temp2 + 1] = stacks->stack_a[temp];
-		stacks->stack_a[temp] = INT_MIN;
-}
-
-static void	stack_ab_rules(char *rule, t_stacks *stacks)
-{
-	int		temp;
-
-	temp = 0;
-}
 void		apply_rule(char *rule, t_stacks *stacks)
 {
 	if (ft_strcmp(rule, "sa") == 0)
