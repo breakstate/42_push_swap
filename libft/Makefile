@@ -89,7 +89,8 @@ OBJ 	=	${SRCS:.c=.o}
 
 CFLAGS 	= 	-Werror -Wextra -Wall -c
 
-HEAD 	=	libft.h
+HEAD 	=	libft.h			\
+			get_next_line.h	\
 
 NAME	=	libft.a
 
@@ -112,5 +113,19 @@ fclean: clean
 
 re: fclean all
 	@echo "-------->libft recompiled<--------"
+
+norm:
+	@clear
+	@echo "Norminette:"
+	@norminette $(HEADERS)
+	@echo "--------->HEADERS ARE DONE<-------"
+	@norminette $(SRCS1)
+	@echo "---------->SRCS1 ARE DONE<--------"
+	@norminette $(SRCS2)
+	@echo "---------->SRCS2 ARE DONE<--------"
+	@norminette $(SRCS3)
+	@echo "---------->SRCS3 ARE DONE<--------"
+	@norminette $(SRCS4)
+	@echo "---------->SRCS4 ARE DONE<--------"
 
 .PHONY: clean
