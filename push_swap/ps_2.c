@@ -9,7 +9,7 @@ int		verify_int(int argc, char **argv)
 	{
 		while (j != '\0')
 		{
-			if (!(ft_isdigit(argv[i][j]) && ft_isspace(argv[i][j])))
+			if (!(ft_isdigit(argv[i][j]) || ft_isspace(argv[i][j])))
 			{
 				return (0)
 			}
