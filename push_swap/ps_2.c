@@ -2,9 +2,11 @@ int		verify_int(int argc, char **argv)
 {
 	int i;
 	int j;
+	char **
 
 	i = 1;
 	j = 0;
+
 	while(i < argc)
 	{
 		while (j != '\0')
@@ -44,3 +46,6 @@ int		verify_dup(int argc, char **argv)
 }
 
 int		verify_int()
+ascii to long
+check if long <= max int(stored in long) && >= min int(stored in long)
+
