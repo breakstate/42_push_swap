@@ -9,7 +9,7 @@ void	sa(t_stacks *stacks)
 	temp2 = 0;
 	if (stacks->stack_a[1] == INT_MIN)
 		return ;
-	while (stacks->stack_a[temp2] == INT_MIN)
+	while (stacks->stack_a[temp2] != INT_MIN)
 		temp2++;
 	temp = stacks->stack_a[temp2 - 1];
 	stacks->stack_a[temp2 - 1] = stacks->stack_a[temp2];
