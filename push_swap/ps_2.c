@@ -48,6 +48,7 @@ int			verify_dup(char *arg)
 			else
 				return (0);
 		}
+		free(arr[i]);
 		j = 1;
 		i = pos + 1;
 	}
@@ -90,29 +91,33 @@ int			verify_int(char **arg)
 		if (arg[i][j] == '-' || arg[i][j] == '+')
 			j++;
 		while (arg[i][j] != '\0')
-		{
-			result = ((result * 10) + (arg[i][j] - 48));
-			j++;
-		}
+			result = ((result * 10) + (arg[i][j++] - 48));
 		result = result * sign;
 		if (!(verify_min_max(result)))
 			return (0);
+		free(arg[i]);
 		i++;
 		j = 0;
 	}
 	return (1);
 }
+
+int			*arr_stoi()
+{
+	
+}
+
 /* 
 **	notes
 ** 	0 is bad, 1 is good, can be reversed if preferred
 **	push_swap.h modified to compile, changes not pushed
-**	
+**		
 */
 
 int main()
 {
 	char *str;
-	str = "21 23 45 67 89 90 167 7 -2147483649 ";
-	printf("verify_dup output - %d\n", verify_int(ft_strsplit(str, ' ')));
+	str = "21 23 45 67 89 90 167 7 -2147483648 ";
+	printf("verify_int output - %d\n", verify_int(ft_strsplit(str, ' ')));
 	return (0);
 }
