@@ -102,9 +102,25 @@ int			verify_int(char **arg)
 	return (1);
 }
 
-int			*arr_stoi()
+/*
+**	arr_atoi() [I don't like the name, open for suggestions]
+**	takes in a 2d char array and converts to int array
+**	assumes checks have been done prior
+**	arg_len can be determined in another function or within arr_stoi()
+*/
+
+int			*arr_stoi(char **arg, int elements)
 {
-	
+	int		i;
+	int		*int_arr;
+
+	int_arr = (int *)ft_memalloc(sizeof(int) * elements);
+	while (arg[i])
+	{
+		int_arr[i] = ft_atoi(arg[i]);
+		i++;
+	}
+	return (int_arr);
 }
 
 /* 
@@ -117,7 +133,15 @@ int			*arr_stoi()
 int main()
 {
 	char *str;
-	str = "21 23 45 67 89 90 167 7 -2147483648 ";
-	printf("verify_int output - %d\n", verify_int(ft_strsplit(str, ' ')));
+	int  *int_arr;
+	int elements = 10;
+	int i = 0;
+	str = "21 23 45 67 89 90 167 7 -2147483648 78";
+	int_arr = arr_stoi(ft_strsplit(str, ' '), elements);
+	while (i < elements)
+	{
+		printf("int_arr[%d] - %d\n", i, int_arr[i]);
+		i++;
+	}
 	return (0);
 }
