@@ -1,0 +1,1 @@
+gcc ps_2.c -L ../libft/ -lft -I ../libft/includes/
