@@ -1,41 +1,35 @@
-int		verify_int(int argc, char **argv)
+int			verify_digits(int argc, char **argv)
 {
-	int i;
-	int j;
-	char **
+	int		i;
 
 	i = 1;
-	j = 0;
-
-	while(i < argc)
+	while(argv[i])
 	{
-		while (j != '\0')
+		if (!(ft_isdigit(argv[i][j]) || ft_isspace(argv[i][j])))
 		{
-			if (!(ft_isdigit(argv[i][j]) || ft_isspace(argv[i][j])))
-			{
-				return (0)
-			}
-			j++;
+			return (0)
 		}
 		i++;
-		j = 0;
 	}
-	return (1);//return from next verification
+	return (1);
 }
 
-int		verify_dup(int argc, char **argv)
+int			verify_dup(char **argv)
 {
-	int i;
-	int pos;
-	cha
+	int		i;
+	int		j;
+	int		pos;
+	char	*arr;
 
-	i = 1;
-	while (i < argc)
+	arr = ft_strsplit(argv, ' ');
+	i = 0;
+	j = 0;
+	while (arr[i])
 	{
 		pos = i;
-		while (i < argc - 1)
+		while (arr[i + 1])
 		{
-			if (ft_strcmp(argv[i], argv[i + 1]) != 0)
+			if (ft_strcmp(arr[i], argv[i + 1]) != 0)
 				i++;
 			else
 				return (0);
@@ -45,7 +39,9 @@ int		verify_dup(int argc, char **argv)
 	return (1);//or what next verifaction returns
 }
 
-int		verify_int()
-ascii to long
-check if long <= max int(stored in long) && >= min int(stored in long)
-
+/* 
+**	notes
+** 	int		verify_int()//combine conver() and verify_if_int()
+**	ascii to long
+**	check if long <= max int(stored in long) && >= min int(stored in long)
+*/
