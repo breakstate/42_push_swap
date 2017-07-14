@@ -5,6 +5,19 @@
 # define INT_MAX 2147483647
 
 /*
+**	-----------------\
+**	structs structure
+**	-----------------/
+*/
+
+typedef struct	s_stacks
+{
+	int			*stack_a;
+	int			*stack_b;
+	size_t		size_of_stack;
+}				t_stacks;
+
+/*
 **	------------------\
 **	applying the rules
 **	------------------/
@@ -37,18 +50,5 @@ void			rrb(t_stacks *stacks);
 void			ss(t_stacks *stacks);
 void			rr(t_stacks *stacks);
 void			rrr(t_stacks *stacks);
-
-/*
-**	-----------------\
-**	structs structure
-**	-----------------/
-*/
-
-typedef struct	s_stacks
-{
-	int			*stack_a;
-	int			*stack_b;
-	size_t		size_of_stack;
-}				t_stacks;
 
 #endif
