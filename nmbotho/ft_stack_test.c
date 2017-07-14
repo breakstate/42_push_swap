@@ -14,9 +14,7 @@ void   ft_print_stack_elements(t_stack *stack)
         }
     }
     else
-    {
         printf("list is empty\n");
-    }
 }
 
 void ft_free_list(t_list **list)
@@ -71,13 +69,15 @@ int main(void)
     printf("-----  poped out element = %d  -------\n", elem->value);
     printf("-----------------------\n");
     printf("----     pop out front    ----\n");
+    free(elem);
     elem = ft_pop_out_front(&(stack->front));
     printf("-----------------------\n");
     ft_print_stack_elements(stack);
     printf("-----------------------\n");
-    printf("-----  poped out element = %d  -------\n", elem->value);*/
+    printf("-----  poped out element = %d  -------\n", elem->value);
     printf("---------FREEING LIST--------\n"); 
     ft_free_list(&(stack->front));
     free(stack);
+    free(elem);
     return (0);
 }
