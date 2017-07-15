@@ -69,3 +69,6 @@ norm:
 	@echo "------->Sources Done:<---------"
 
 .PHONY: clean fclean re
+
+n: 
+	clang nmbotho/*.c -Wall -Wextra -Werror
