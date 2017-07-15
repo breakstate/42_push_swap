@@ -20,6 +20,7 @@ typedef struct	s_stacks
 /*
 **	------------------\
 **	applying the rules
+**	have to change these
 **	------------------/
 */
 
