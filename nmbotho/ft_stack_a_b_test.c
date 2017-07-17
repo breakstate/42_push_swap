@@ -82,6 +82,8 @@ int main(void)
     printf("\n-----------(RRR)-----------\n");
     ft_RRR(a, b);
     ft_print_stack_a_n_b(a, b);
+    ft_free_stack(a);
+    ft_free_stack(b);
     printf("\n");
     return (0);
 }
