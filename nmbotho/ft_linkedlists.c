@@ -1,6 +1,6 @@
 #include "ft_push_swap.h"
 
-void    ft_add_elem_front(t_list **top, int value)
+void    ft_create_elem_front(t_list **top, int value)
 {
     t_list *elem;
 
@@ -22,7 +22,7 @@ void    ft_add_elem_front(t_list **top, int value)
         *top = elem;
 }
 
-t_list    *ft_add_elem_back(t_list **back, int value)
+t_list    *ft_create_elem_back(t_list **back, int value)
 {
     t_list *elem;
 
@@ -42,6 +42,33 @@ t_list    *ft_add_elem_back(t_list **back, int value)
     else
         *back = elem;
     return (elem);
+}
+
+void    ft_add_elem(t_list **list, t_list *elem, int front)
+{
+    t_list *next;
+    
+    if(*list && elem)
+    {
+        //printf("list = %p, list->value = %d\n", *list, (*list)->value);
+        if(front)
+        {
+            (*list)->prev = elem;
+            elem->next = *list;
+            elem->prev = NULL;
+        }
+        else
+        {
+            elem->prev = *list;
+            (*list)->next = elem;
+            elem->next = NULL;
+        }
+      //  printf("elem = %p, value = %d\n", elem, elem->value);
+   //     printf("*list = %p, value = %d\n", *list, (*list)->value);
+        *list = elem;
+    }
+    else if(elem)
+        *list = elem;
 }
 
 t_list  *ft_pop_out_front(t_list **front)

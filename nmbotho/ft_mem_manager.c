@@ -4,7 +4,7 @@ void ft_free_list(t_list **list)
 {
     t_list *next;
     
-    if(*list) // DO THIS AND YOU SHOULD NEVER HAVE A PROBLEM OF DOUBLE FREE :)
+    if(*list)
     {
         while(*list)
         {
@@ -31,4 +31,15 @@ t_stack *ft_create_stack()
     stack->front = NULL;
     stack->back = NULL;
     return (stack);
+}
+
+t_list *ft_create_elem(int value)
+{
+    t_list *link;
+
+    link = (t_list*)malloc(sizeof(t_list));
+    link->value = value;
+    link->next = NULL;
+    link->prev = NULL;
+    return (link);
 }
