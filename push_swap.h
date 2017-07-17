@@ -52,4 +52,14 @@ void			ss(t_stacks *stacks);
 void			rr(t_stacks *stacks);
 void			rrr(t_stacks *stacks);
 
+/*
+**	in file ps_verify.c
+*/
+
+int				verify_dup(char *arg);
+int				verify_digits(char *arg);
+int				verify_min_max(long num);
+int				verify_int(char **arg);
+int				*arr_stoi(char **arg);
+
 #endif
