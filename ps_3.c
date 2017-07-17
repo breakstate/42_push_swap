@@ -5,13 +5,13 @@ int		verify_int(int argc, char **argv)
 
 	i = 1;
 	j = 0;
-	while(i < argc)
+	while (i < argc)
 	{
 		while (j != '\0')
 		{
 			if (!(ft_isdigit(argv[i][j]) && ft_isspace(argv[i][j])))
 			{
-				return (0)
+				return (0);
 			}
 			j++;
 		}
@@ -25,7 +25,6 @@ int		verify_dup(int argc, char **argv)
 {
 	int i;
 	int pos;
-	cha
 
 	i = 1;
 	while (i < argc)

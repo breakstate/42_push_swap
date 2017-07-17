@@ -6,7 +6,7 @@
 #    By: lvan-gen <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/29 12:53:43 by lvan-gen          #+#    #+#              #
-#    Updated: 2017/07/11 10:41:27 by jdamhuis         ###   ########.fr        #
+#    Updated: 2017/07/17 09:45:21 by jdamhuis         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC1	=	ft_memset.c		\
 			ft_strnstr.c	\
 			ft_strcmp.c		\
 			ft_strncmp.c
+
 SRC2	=	ft_atoi.c		\
 			ft_isalpha.c	\
 			ft_isupper.c	\
@@ -50,6 +51,7 @@ SRC2	=	ft_atoi.c		\
 			ft_striter.c	\
 			ft_striteri.c	\
 			ft_strmap.c
+
 SRC3	=	ft_strmapi.c	\
 			ft_strequ.c		\
 			ft_strnequ.c	\
@@ -69,7 +71,8 @@ SRC3	=	ft_strmapi.c	\
 			ft_lstdelone.c	\
 			ft_lstdel.c		\
 			ft_lstadd.c		\
-			ft_lstiter.c	
+			ft_lstiter.c
+
 SRC4	=	ft_lstmap.c		\
 			ft_strnlen.c	\
 			ft_abs.c		\
@@ -85,12 +88,16 @@ SRC4	=	ft_lstmap.c		\
 
 SRCS	=	$(SRC1) $(SRC2) $(SRC3) $(SRC4)
 
-OBJ 	=	${SRCS:.c=.o}
+OBJ		=	${SRCS:.c=.o}
 
-CFLAGS 	= 	-Werror -Wextra -Wall -c
+CFLAGS	= 	-Werror -Wextra -Wall -c
 
-HEAD 	=	libft.h			\
+INC_PATH =	./includes/
+
+HEAD	=	libft.h			\
 			get_next_line.h	\
+
+HEADERS	=	$(addprefix $(INC_PATH), $(HEAD))
 
 NAME	=	libft.a
 
@@ -115,17 +122,17 @@ re: fclean all
 	@echo "-------->libft recompiled<--------"
 
 norm:
-	@clear
-	@echo "Norminette:"
+	@echo "--------------->NORMING LIBFT<-----------------"
 	@norminette $(HEADERS)
-	@echo "--------->HEADERS ARE DONE<-------"
-	@norminette $(SRCS1)
-	@echo "---------->SRCS1 ARE DONE<--------"
-	@norminette $(SRCS2)
-	@echo "---------->SRCS2 ARE DONE<--------"
-	@norminette $(SRCS3)
-	@echo "---------->SRCS3 ARE DONE<--------"
-	@norminette $(SRCS4)
-	@echo "---------->SRCS4 ARE DONE<--------"
+	@echo "-------------->HEADERS ARE DONE<---------------"
+	@norminette $(SRC1)
+	@echo "--------------->SRCS1 ARE DONE<----------------"
+	@norminette $(SRC2)
+	@echo "--------------->SRCS2 ARE DONE<----------------"
+	@norminette $(SRC3)
+	@echo "--------------->SRCS3 ARE DONE<----------------"
+	@norminette $(SRC4)
+	@echo "--------------->SRCS4 ARE DONE<----------------"
+	@echo "----------------->LIBFT Done:<-----------------"
 
-.PHONY: clean
+.PHONY: clean fclean norm all re
