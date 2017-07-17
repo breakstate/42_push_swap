@@ -12,9 +12,6 @@
 
 #include "../push_swap.h"
 #include "../libft/includes/libft.h"
-#include <stdio.h>
-
-int			verify_dup(char *arg);
 
 /*
 **	verify_digits()
@@ -111,7 +108,6 @@ int			verify_int(char **arg)
 		result = result * sign;
 		if (!(verify_min_max(result)))
 			return (0);
-		free(arg[i]);
 		i++;
 	}
 	return (1);
@@ -124,29 +120,25 @@ int			verify_int(char **arg)
 **	arg_len can be determined in another function or within arr_stoi()
 */
 
-int			*arr_stoi(char **arg)
+int			arr_stoi(char **arg, t_pack *pack)
 {
 	int		i;
-	int		*int_arr;
-	int		elements;
 
 	i = 0;
-	elements = 0;
-	while (arg[elements])
-		elements++;
-	printf("elems - %d\n", elements);
-	int_arr = (int *)ft_memalloc(sizeof(int) * elements);
-	if (int_arr == NULL)
+	pack->elements = 0;
+	while (arg[pack->elements])
+		pack->elements++;
+	pack->int_arr = (int *)ft_memalloc(sizeof(int) * pack->elements);
+	if (pack->int_arr == NULL)
 	{
-		puts("hi");
-		return (NULL);
+		return (0);
 	}
 	while (arg[i])
 	{
-		int_arr[i] = ft_atoi(arg[i]);
+		pack->int_arr[i] = ft_atoi(arg[i]);
 		i++;
 	}
-	return (int_arr);
+	return (1);
 }
 
 /*
@@ -154,27 +146,3 @@ int			*arr_stoi(char **arg)
 ** 	0 is bad, 1 is good, can be reversed if preferred
 **	push_swap.h modified to compile, changes not pushed
 */
-
-/*
-int			main(void)
-{
-	char	*str;
-	int		*int_arr;
-	int		elements;
-	int		i;
-	
-	puts("main\n");
-	elements = 10;
-	i = 0;
-	str = "21 23 45 67 89 90 167 2147483647 78";
-	printf("(1 true, 0 false) result - %d\n", verify_digits(str));
-	//printf("%d\n", verify_int(ft_strsplit(str, ' ')));
-	//
-	int_arr = arr_stoi(ft_strsplit(str, ' '), elements);
-	while (i < elements)
-	{
-		printf("int_arr[%d] - %d\n", i, int_arr[i]);
-		i++;
-	}
-	return (0);
-}*/

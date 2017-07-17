@@ -18,6 +18,18 @@ typedef struct	s_stacks
 }				t_stacks;
 
 /*
+**	-----------------\
+**	struct for int arr
+**	-----------------/
+*/
+
+typedef struct	s_pack
+{
+	int			*int_arr;
+	int			elements;
+}				t_pack;
+
+/*
 **	------------------\
 **	applying the rules
 **	have to change these
@@ -60,6 +72,8 @@ int				verify_dup(char *arg);
 int				verify_digits(char *arg);
 int				verify_min_max(long num);
 int				verify_int(char **arg);
-int				*arr_stoi(char **arg);
+int				arr_stoi(char **arg, t_pack *pack);
+int				verify_args(char *arg, t_pack *pack);
+int				verify_argc(int argc);
 
 #endif
