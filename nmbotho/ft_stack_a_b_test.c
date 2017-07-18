@@ -35,6 +35,7 @@ int main(void)
 	int arr[5];
 	int i;
 
+<<<<<<< HEAD
 	i = 0;
 	a = NULL;
 	b = NULL;
@@ -78,4 +79,57 @@ int main(void)
 	printf("\n");
 	
 	return (0);
+=======
+    i = 0;
+    a = NULL;
+    b = NULL;
+    srand(2);
+    while(i < 5)
+    {
+        arr[i] = rand() % 20;
+        printf("array = %d\n", arr[i]);
+        i++;
+    }
+    a = ft_init_stack(arr, 5);
+    b = ft_init_stack(arr, 0);
+    printf("\n-----------------------\n");
+    ft_print_stack_a_n_b(a, b);
+    printf("\n-----------PB------------\n");
+    ft_PA_PB(a, b);
+    ft_print_stack_a_n_b(a, b);
+    printf("\n-----------PB------------\n");
+    ft_PA_PB(a, b);
+    ft_print_stack_a_n_b(a, b);
+    printf("\n-----------SA------------\n");
+    ft_SA_SB(a);
+    ft_print_stack_a_n_b(a, b);
+    printf("\n-----------SB------------\n");
+    ft_SA_SB(b);
+    ft_print_stack_a_n_b(a, b);
+    printf("\n-----------SS------------\n");
+    ft_SS(a, b);
+    ft_print_stack_a_n_b(a, b);
+    printf("\n----------(-RA-)-----------\n");
+    ft_RA_RB(a);
+    ft_print_stack_a_n_b(a, b);
+    printf("\n-----------PB------------\n");
+    ft_PA_PB(a, b);
+    ft_print_stack_a_n_b(a, b);
+    printf("\n---------(-RB-)-----------\n");
+    ft_RA_RB(b);
+    ft_print_stack_a_n_b(a, b);
+    printf("\n---------(-(RR)-)----------\n");
+    ft_RR(a, b);
+    ft_print_stack_a_n_b(a, b);
+    printf("\n-----------(RRA)-----------\n");
+    ft_RRA_RRB(b);
+    ft_print_stack_a_n_b(a, b);
+    printf("\n-----------(RRR)-----------\n");
+    ft_RRR(a, b);
+    ft_print_stack_a_n_b(a, b);
+    ft_free_stack(a);
+    ft_free_stack(b);
+    printf("\n");
+    return (0);
+>>>>>>> nmbotho
 }
