@@ -31,13 +31,13 @@ $(NAME): $(HEADER) $(PUSH_NAME) $(CHECK_NAME)
 		fi
 	@make $(PUSH_NAME)
 	@make $(CHECK_NAME)
-	@echo "----------------->DONE!<----------------"
+	@echo "-------------------->DONE!<--------------------"
 
 $(PUSH_NAME): $(SRCS) $(PUSH_MAIN)
 	@$(CC) -o $(PUSH_NAME) $(SRCS) $(PUSH_MAIN) $(CFLAGS) \
 		-I $(INCLUDE) -I $(LIBFT_INC) \
 		-L ./libft/ -lft
-	@echo "------->push_swap has been compiled<---------"
+	@echo "------------->PUSH_SWAP COMPILED<--------------"
 	
 #gcc ps_main.c verify.c verify_controller.c -L ../libft -lft -I ../libft/includes/
 
@@ -45,20 +45,18 @@ $(CHECK_NAME): $(SRCS) $(CHECK_MAIN)
 	@$(CC) -o $(CHECK_NAME) $(SRCS) $(CHECK_MAIN) $(CFLAGS) \
 		-I $(INCLUDE) -I $(LIBFT_INC) \
 		-L ./libft/ -lft
-	@echo "------->checker has been compiled<---------"
+	@echo "-------------->CHECKER COMPILED<---------------"
 
-#gcc ch_main.c ../push_swap/verify.c ../push_swap/verify_controller.c -L ../libft/ -lft -I ../libft/includes/
 
 clean:
-	@clear
 	@rm -f $(OBJS)
 	@make lib_clean
-	@echo "------->cleaning done<--------"
+	@echo "--------------->PROGRAM CLEANED<---------------"
 
 fclean: clean
 	@rm -f $(PUSH_NAME)
 	@rm -f $(CHECK_NAME)
-	@echo "------->fclean compleated<--------"
+	@echo "-------------->FCLEAN COMPLEATED<--------------"
 #@make lib_fclean
 
 lib:
