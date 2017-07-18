@@ -9,13 +9,6 @@
 **	-----------------/
 */
 
-typedef struct		s_stacks
-{
-	int				*stack_a;
-	int				*stack_b;
-	size_t			size_of_stack;
-}					t_stacks;
-
 typedef struct		s_list
 {
 	int				value;
@@ -28,6 +21,24 @@ typedef struct		s_stack
 	t_list			*front;
 	t_list			*back;
 }					t_stack;
+
+typedef struct		s_node
+{
+	int				weight;
+	struct s_node	*parent;
+	char			*rule;
+	int				steps;
+	t_stack			*a;
+	t_stack			*b;
+}					t_node;
+
+typedef struct		s_sets
+{
+	s_stack			*node;
+	struct s_sets	*next;
+	struct s_sets	*prev;
+	int				*weight;
+}					t_sets;
 
 /*
 */
