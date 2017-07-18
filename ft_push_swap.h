@@ -1,3 +1,5 @@
+#ifndef FT_PUSH_SWAP_H
+#define FT_PUSH_SWAP_H
 #include <stdlib.h>
 #include "ft_forbidden.h"
 typedef struct  s_list
@@ -25,3 +27,5 @@ void        ft_SA_SB(t_stack *a);
 void        ft_SS(t_stack *a, t_stack *b);
 void        ft_PA_PB(t_stack *from, t_stack *to);
 void        ft_free_stack(t_stack *stack);
+
+#endif
