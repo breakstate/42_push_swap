@@ -6,7 +6,7 @@
 /*   By: bmoodley <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/17 15:42:16 by bmoodley          #+#    #+#             */
-/*   Updated: 2017/07/17 17:11:44 by bmoodley         ###   ########.fr       */
+/*   Updated: 2017/07/18 10:34:14 by bmoodley         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ int			verify_digits(char *arg)
 	{
 		if (!(ft_isdigit(arg[i]) || ft_isspace(arg[i])))
 		{
-			return (0);
+			if (arg[0] == '-' && ft_isdigit(arg[1]))
+				;
+			else if (!(arg[i] == '-' && ((ft_isdigit(arg[i + 1]))) &&
+				((arg[i - 1] == ' '))))
+				return (0);
 		}
 		i++;
 	}
@@ -114,7 +118,6 @@ int			verify_int(char **arg)
 }
 
 /*
-**	arr_atoi() [I don't like the name, open for suggestions]
 **	takes in a 2d char array and converts to int array
 **	assumes checks have been done prior
 **	arg_len can be determined in another function or within arr_stoi()
@@ -144,5 +147,4 @@ int			arr_stoi(char **arg, t_pack *pack)
 /*
 **	notes
 ** 	0 is bad, 1 is good, can be reversed if preferred
-**	push_swap.h modified to compile, changes not pushed
 */

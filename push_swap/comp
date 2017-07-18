@@ -1,3 +1,0 @@
-gcc ps_2.c -L ../libft/ -lft -I ../libft/includes/
-gcc ps_main.c ps_verify.c ps_verify_controller.c -L ../libft/ -lft -I ../libft/includes/
-gcc ps_main.c ps_verify.c ps_verify_controller.c -L ../libft/ -lft -I ../libft/includes/
