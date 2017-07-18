@@ -1,21 +1,15 @@
-PUSH_NAME	=	push_swap
+PUSH_NAME	=	push_swap_exe
 
-PUSH_MAIN	=	push_main.c
+PUSH_MAIN	=	./push_swap/ps_main.c
 
-CHECK_NAME	=	checker
+CHECK_NAME	=	checker_exe
 
-CHECK_MAIN	=	check_main.c
+CHECK_MAIN	=	./checker/ch_main.c
 
-SRCS	=	ft_linkedlists.c	\
-			ft_rules.c			\
-			ft_stack_a_b_test.c	\
-			ft_stack_test.c		\
-			ft_swap.c			\
-			ft_mem_manager.c	\
-			ft_stack.c			\
-			ft_stack_a_test.c	\
-			ft_stacks.c			\
-			ps_3.c				\
+SRCS	=	push_swap/verify.c				\
+			push_swap/verify_controller.c 	\
+
+NAME	=	porg
 
 CC = gcc
 
@@ -31,26 +25,29 @@ LIBFT_INC = ./libft/includes
 
 all: $(NAME) me
 
-$(NAME): $(SRCS) $(HEADER) $(CHECK_MAIN) $(PUSH_MAIN)
-	@clear
+$(NAME): $(HEADER) $(PUSH_NAME) $(CHECK_NAME)
 	@if [ ! -f ./libft/libft.a ]; then \
 		make lib; \
 		fi
-	@make filler
-	@make check
-	@echo "------->push_swap prog has been compiled<---------"
+	@make $(PUSH_NAME)
+	@make $(CHECK_NAME)
+	@echo "----------------->DONE!<----------------"
 
-push:
+$(PUSH_NAME): $(SRCS) $(PUSH_MAIN)
 	@$(CC) -o $(PUSH_NAME) $(SRCS) $(PUSH_MAIN) $(CFLAGS) \
 		-I $(INCLUDE) -I $(LIBFT_INC) \
-		-L. ./libft/libft.a
+		-L ./libft/ -lft
 	@echo "------->push_swap has been compiled<---------"
+	
+#gcc ps_main.c verify.c verify_controller.c -L ../libft -lft -I ../libft/includes/
 
-checker:
+$(CHECK_NAME): $(SRCS) $(CHECK_MAIN)
 	@$(CC) -o $(CHECK_NAME) $(SRCS) $(CHECK_MAIN) $(CFLAGS) \
 		-I $(INCLUDE) -I $(LIBFT_INC) \
-		-L. ./libft/libft.a
+		-L ./libft/ -lft
 	@echo "------->checker has been compiled<---------"
+
+#gcc ch_main.c ../push_swap/verify.c ../push_swap/verify_controller.c -L ../libft/ -lft -I ../libft/includes/
 
 clean:
 	@clear
@@ -59,10 +56,10 @@ clean:
 	@echo "------->cleaning done<--------"
 
 fclean: clean
-	@make lib_fclean
 	@rm -f $(PUSH_NAME)
 	@rm -f $(CHECK_NAME)
 	@echo "------->fclean compleated<--------"
+#@make lib_fclean
 
 lib:
 	@make -C libft/
