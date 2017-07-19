@@ -3,105 +3,91 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvan-gen <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bmoodley <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/02 10:41:28 by lvan-gen          #+#    #+#             */
-/*   Updated: 2017/06/02 11:48:40 by lvan-gen         ###   ########.fr       */
+/*   Created: 2017/06/11 17:13:12 by bmoodley          #+#    #+#             */
+/*   Updated: 2017/06/11 17:17:26 by bmoodley         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
-static int		ft_str_cnt(const char *s, char c)
+/* 
+**	Remember to free each element in calling function
+**	while (s_str && s_str[i])
+*/
+
+static char		*word_length(char *s, char c, int word)
 {
 	int		i;
-	int		str_cnt;
-	char	in_str;
+	int		start;
+	int		word_count;
+	char	*str;
 
-	str_cnt = 0;
-	in_str = FALSE;
-	i = 0;
-	while (s[i] != '\0')
+	start = 0;
+	word_count = 0;
+	i = 1;
+	if (s[i] != c)
 	{
-		if (s[i] != c && in_str != TRUE)
+		word_count++;
+		start = 0;
+	}
+	while (word_count < word)
+	{
+		if (s[i] != c && s[i - 1] == c)
 		{
-			str_cnt++;
-			in_str = TRUE;
+			word_count++;
+			start = i;
 		}
-		else if (s[i] == c)
-			in_str = FALSE;
 		i++;
 	}
-	return (str_cnt);
+	while (s[i] != c && s[i] != '\0')
+		i++;
+	str = (ft_strsub(s, start, i - start));
+	return (str);
 }
 
-static size_t	*ft_str_lens(const char *s, char c, int str_cnt)
+static int		count_words(const char *s, char c)
 {
-	size_t	*lens;
 	int		i;
-	char	is_str;
-	int		b;
+	int		count;
 
-	i = -1;
-	b = 0;
-	is_str = FALSE;
-	if ((lens = (size_t *)ft_memalloc(sizeof(size_t) * str_cnt + 1)) == NULL)
-		return (NULL);
-	while (s[++i] != '\0')
+	i = 1;
+	count = 0;
+	if (s[0] != c)
+		count++;
+	while (s[i] != '\0')
 	{
-		if (s[i] != c)
-		{
-			lens[b]++;
-			is_str = TRUE;
-		}
-		else if (s[i] == c && is_str == TRUE)
-		{
-			b++;
-			is_str = FALSE;
-		}
+		if (s[i] != c && s[i - 1] == c)
+			count++;
+		i++;
 	}
-	return (lens);
+	return (count);
 }
 
-static char		**ft_aloc_str_list(int str_cnt, size_t *len, const char *s,
-									char c)
+char			**ft_strsplit(char const *s, char c)
 {
-	char	**arr;
 	int		i;
-	char	in_str;
-	int		b;
+	char	**strsplit;
+	int		word_count;
+	char	*trimmed_str;
+	char	*word;
 
-	i = -1;
-	b = -1;
-	in_str = FALSE;
-	if ((arr = (char **)ft_memalloc(sizeof(char *) * (str_cnt + 1))) == NULL)
+	i = 0;
+	trimmed_str = ft_strtrim_delim(s, c);
+	word_count = count_words(s, c);
+	if (!(word_count))
 		return (NULL);
-	while (s[++i] != '\0')
+	strsplit = (char **)ft_memalloc(sizeof(char *) * word_count + 1);
+	if (strsplit == NULL)
+		return (NULL);
+	while (i < word_count)
 	{
-		if (s[i] != c && in_str == FALSE)
-		{
-			++b;
-			if ((arr[b] = ft_strnew(len[b])) != NULL)
-				ft_memcpy(arr[b], s + i, len[b]);
-			in_str = TRUE;
-		}
-		else if (s[i] == c && in_str == TRUE)
-			in_str = FALSE;
+		word = word_length(trimmed_str, c, i + 1);
+		strsplit[i] = word;
+		i++;
 	}
-	return (arr);
-}
-
-char			**ft_strsplit(const char *s, char c)
-{
-	int		str_cnt;
-	size_t	*len;
-	char	**words;
-
-	if (s == NULL)
-		return (0);
-	str_cnt = ft_str_cnt(s, c);
-	len = ft_str_lens(s, c, str_cnt);
-	words = ft_aloc_str_list(str_cnt, len, s, c);
-	free(len);
-	return (words);
+	free(trimmed_str);
+	return (strsplit);
 }
