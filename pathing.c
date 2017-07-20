@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pathing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdamhuis <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/07/20 08:55:05 by jdamhuis          #+#    #+#             */
+/*   Updated: 2017/07/20 08:55:08 by jdamhuis         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 char		**move_list(t_node *node)
@@ -6,7 +18,7 @@ char		**move_list(t_node *node)
 	size_t	index;
 	t_node	*current;
 
-	moves_list = (char **)malloc(sizeof(char *) * (node->steps + 1);
+	moves_list = (char **)malloc(sizeof(char *) * (node->steps + 1));
 	if (moves_list)
 	{
 		current = node;
@@ -58,7 +70,8 @@ int			assaign_weight(t_node *node)
 
 	a_copy = copy_linked_list(node->a);
 	b_copy = copy_linked_list(node->b);
-	moves_list = move_list(node)
+	moves_list = move_list(node);
+	index = 0;
 	while(index < node->steps)
 	{
 		apply_rule(move[index], a_copy, b_copy);

@@ -23,12 +23,12 @@
 
 typedef int			t_bool;
 
-typedef struct		s_list
+typedef struct		s_lists
 {
 	void			*content;
 	size_t			content_size;
 	struct s_list	*next;
-}					t_list;
+}					t_lists;
 
 t_list				*ft_lstnew(const void *content, size_t content_size);
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
