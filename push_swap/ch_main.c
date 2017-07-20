@@ -4,13 +4,20 @@
 
 void	read_instructions()
 {
-	//with the use of GNL
+	char *line;
+
+	line = NULL;
+	while (get_next_line(0, &line))
+	{
+		printf("%s\n", line);
+	}
 }
 
 int		main(int argc, char **argv)
 {
 	t_pack	pack;
-	
+
+	read_instructions();	
 	if (!(verify_argc(argc)))
 		return (1);
 	if (!(verify_args(argv[1], &pack)))
