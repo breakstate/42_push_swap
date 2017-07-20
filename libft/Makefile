@@ -85,6 +85,7 @@ SRC4	=	ft_lstmap.c		\
 			get_next_line.c	\
 			ft_free_2d_arr.c\
 			ft_dup_2d_arr.c	\
+			ft_strtrim_delim.c
 
 SRCS	=	$(SRC1) $(SRC2) $(SRC3) $(SRC4)
 

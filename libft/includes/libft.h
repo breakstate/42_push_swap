@@ -68,6 +68,7 @@ void				*ft_memalloc(size_t size);
 void				**ft_make_2d_arr(int nm, int ln, size_t n_sz, size_t l_sz);
 char				**ft_strsplit(const char *s, char c);
 char				*ft_strtrim(const char *s);
+char				*ft_strtrim_delim(const char *s, char c);
 char				*ft_strmap(const char *s, char (*f)(char));
 char				*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 char				*ft_strnew(size_t size);
