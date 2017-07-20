@@ -5,13 +5,13 @@ int			verify_args(char *arg, t_pack *pack)
 {
 	char	**split_args;
 
-	if (!(verify_digits(arg)))
+	if (!(verify_digits(arg) && arg[0] != '\0'))
 	{
 		ft_putstr_fd("Error\n", 2);
 		return (0);
 	}
 	split_args = ft_strsplit(arg, ' ');
-	if (!(verify_int(split_args)))
+	if (!(verify_int(split_args) && split_args[0] != '\0'))
 	{
 		ft_putstr_fd("Error\n", 2);
 		return (0);
