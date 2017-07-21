@@ -47,19 +47,8 @@ typedef struct		s_open
 typedef struct		s_close
 {
 	t_node			*node;
-	struct s_closed *next;
+	struct s_close	*next;
 }					t_close;
-
-
-/*
-** already exists
-*/
-
-typedef struct		s_array
-{
-	int				*array;
-	size_t			size;
-}					t_array;
 
 /*
 ** fix below
@@ -80,7 +69,7 @@ typedef struct		s_sets
 
 typedef struct		s_pack
 {
-	int				*int_arr;
+	int				*array;
 	int				elements;
 }					t_pack;
 
@@ -108,8 +97,6 @@ int				verify_argc(int argc);
 */
 
 t_list			*copy_linked_list(t_list *list);
-void			ft_add_elem_front(t_list **top, int value);
-t_list			*ft_add_elem_back(t_list **back, int value);
 t_stack			*ft_init_stack(int *a, int size);
 t_list			*ft_pop_out_back(t_list **back);
 t_list			*ft_pop_out_front(t_list **front);
@@ -117,9 +104,12 @@ void			ft_free_list(t_list **list);
 t_stack			*ft_create_stack(void);
 t_list			*ft_create_elem_back(t_list **back, int value);
 void			ft_create_elem_front(t_list **top, int value);
-t_node			*ft_create_node(t_array *array, t_node *parent, t_list *final_state, char *rule);
+t_node			*ft_create_node(t_pack *array, t_node *parent, t_list *final_state, char *rule);
 void			ft_add_to_openset(t_open **open, t_node *node);
 void			ft_free_stack(t_stack *stack);
+void			ft_add_elem(t_list **list, t_list *elem, int front);
+int				ft_calc_weight(t_node *node, t_list *final_state);
+
 
 /*
 **	-------------------------\
