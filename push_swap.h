@@ -25,7 +25,7 @@ typedef struct	s_stacks
 
 typedef struct	s_pack
 {
-	int			*int_arr;
+	int			*array;
 	int			elements;
 }				t_pack;
 
