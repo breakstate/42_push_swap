@@ -4,19 +4,20 @@
 #include "ft_forbidden.h"
 #define _FRONT 1
 #define _BACK 0
-typedef struct  s_list
+
+typedef struct      s_list
 {
     int             value;
     struct s_list   *next;
     struct s_list   *prev;
-}               t_list;
+}                   t_list;
 
 
 typedef struct  s_stack
 {
-    t_list      *front;
-    t_list      *back;
-}               t_stack;
+    t_list          *front;
+    t_list          *back;
+}                   t_stack;
 
 typedef struct s_node
 {
@@ -37,13 +38,13 @@ typedef struct      s_open
 typedef struct      s_close
 {
     t_node          *node;
-    struct s_closed *next;
+    struct s_close  *next;
 }                   t_close;
-typedef struct s_array
+typedef struct      s_array
 {
-    int     *array;
-    size_t  size;
-}               t_array;
+    int             *array;
+    size_t          size;
+}                   t_array;
 
 typedef struct  s_sets
 {
@@ -72,4 +73,5 @@ void        ft_create_elem_front(t_list **top, int value);
 int         ft_calc_weight(t_node *node, t_list *final_state);
 t_node      *ft_create_node(t_array *array, t_node *parent, t_list *final, char *rule);
 void        ft_add_to_openset(t_open **open, t_node *node);
+void        ft_add_to_closedset(t_close **close, t_open *open);
 #endif

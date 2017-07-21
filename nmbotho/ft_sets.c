@@ -65,4 +65,22 @@ void    ft_add_to_openset(t_open **open, t_node *node)
         *open = temp;
     }
 }
+/*
+void    ft_open_to_close(t_close **close, t_open **open)
+{
+    t_close *temp;
+    t_open *next;
 
+    temp = (t_close*)malloc(t_close);
+    if(temp)
+    {
+        if(*open)
+        {
+            next = (*open)->next;
+            closed->node = (*open)->node;
+            closed->next  = NULL;
+            free(*open);
+
+        }
+    }
+}*/
