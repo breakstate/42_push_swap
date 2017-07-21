@@ -1,9 +1,8 @@
 #include "../ft_push_swap.h"
 
 void ft_print_nodes(t_open *set)
-{   int i = 0;
-
-
+{   
+    int i = 0;
     while(set && i < 9)
     {
         printf("current = [ %p : rule = %s : weight = %d ], current->next = %p\n", set, (set->node)->rule, (set->node)->weight ,set->next);
@@ -34,5 +33,7 @@ int main()
     ft_add_to_openset(&test, node3);
     ft_add_to_openset(&test, node4);
     ft_print_nodes(test);
+
+
     return (0);
 }

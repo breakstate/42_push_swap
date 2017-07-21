@@ -18,7 +18,6 @@ void    ft_add_to_openset(t_open **open, t_node *node)
     {
         while(current && i < 10)
         {
-             printf("temp = [ %p : rule = %s : weight = %d] next = %p\n", temp, (temp->node)->rule, (temp->node)->weight, next);
             next = current->next;
             if(node->weight < (current->node)->weight)
             {
@@ -36,34 +35,29 @@ void    ft_add_to_openset(t_open **open, t_node *node)
             }
             else if(node->weight == (current->node)->weight)
             {
-              //  printf("current = [ %p : rule = %s : weight = %d] next = %p || ", current, (current->node)->rule, (current->node)->weight, next);
-               // printf("temp = [ %p : rule = %s : weight = %d] next = %p\n", temp, (temp->node)->rule, (temp->node)->weight, next);
-                //printf("current = [ %p : rule = %s : weight = %d] next = %p\n", current, (current->node)->rule, (current->node)->weight, next);
                 if(next == NULL)
                 {
-                    printf("appending to %p", current);
                     current->next = temp;
                     current = NULL;
                 }
-                else
-                    current = next;
+                else if((next->node)->weight > node->weight)
+                {
+                    current->next = temp;
+                    temp->next = next;
+                    current = NULL;
+                }
             }
             else if(node->weight > (current->node)->weight)
             {
-                //printf("current = [ %p : rule = %s : weight = %d] next = %p || ", current, (current->node)->rule, (current->node)->weight, next);
-                //printf("temp = [ %p : rule = %s : weight = %d] next = %p\n", temp, (temp->node)->rule, (temp->node)->weight, next);
                 current->next = temp;
                 temp->next = next;
                 current = NULL;
             }
             else
             {
-                //printf("current = [ %p : rule = %s : weight = %d] next = %p\n", current, (current->node)->rule, (current->node)->weight, next);
                 current = next;
                 prev = current;
             }
-            printf("%d\n", i);
-            i++; 
         }
     }
     else
@@ -71,3 +65,4 @@ void    ft_add_to_openset(t_open **open, t_node *node)
         *open = temp;
     }
 }
+
