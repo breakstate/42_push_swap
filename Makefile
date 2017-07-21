@@ -1,13 +1,17 @@
 PUSH_NAME	=	push_swap_exe
 
-PUSH_MAIN	=	./push_swap/ps_main.c
+PUSH_MAIN	=	./srcs/ps_main.c
 
 CHECK_NAME	=	checker_exe
 
-CHECK_MAIN	=	./checker/ch_main.c
+CHECK_MAIN	=	./srcs/ch_main.c
 
-SRCS	=	push_swap/verify.c				\
-			push_swap/verify_controller.c 	\
+SRC		=	verify.c				\
+			verify_controller.c 	\
+
+SRC_PATH = ./srcs/
+
+SRCS = $(addprefix $(SRC_PATH), $(SRC))
 
 NAME	=	porg
 
