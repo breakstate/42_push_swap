@@ -6,12 +6,12 @@
 /*   By: bmoodley <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/17 15:42:16 by bmoodley          #+#    #+#             */
-/*   Updated: 2017/07/18 10:34:14 by bmoodley         ###   ########.fr       */
+/*   Updated: 2017/07/21 14:37:47 by bmoodley         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
-#include "../libft/includes/libft.h"
+#include "../includes/ft_push_swap.h"
+#include "../../libft/includes/libft.h"
 
 /*
 **	verify_digits()

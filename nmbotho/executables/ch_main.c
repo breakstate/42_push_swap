@@ -1,5 +1,5 @@
-#include "../push_swap.h"
-#include "../libft/includes/libft.h"
+#include "../includes/push_swap.h"
+#include "../../libft/includes/libft.h"
 #include <stdio.h>
 
 /*
