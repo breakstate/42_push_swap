@@ -13,7 +13,8 @@ int		main(int argc, char **argv)
 	if (!(verify_args(argv[1], &pack)))
 		return (1);
 //	ft_nhlaka(pack.int_arr, pack.elements);//handoff to Nhlaka
+	a_star(&pack);
 	while (i < pack.elements)
-	printf("---> %d\n", pack.int_arr[i++]);
+		printf("---> %d\n", pack.int_arr[i++]);
 	return (0);
 }

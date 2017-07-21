@@ -1,9 +1,11 @@
 #include "push_swap.h"
 
-t_list		copy_linked_list(t_list *list)
+// this is done wrong, you get t_stack not t_list will need to sort
+
+t_list		*copy_linked_list(t_list *list)
 {
 	t_list	*new_list;
-	t_list	*current
+	t_list	*current;
 
 	if (list == NULL)
 		return NULL;
@@ -14,10 +16,10 @@ t_list		copy_linked_list(t_list *list)
 	list = list->next;
 	while(list != NULL) 
 	{
-		current->next = malloc(sizeof(t_list);
+		current->next = malloc(sizeof(t_list));
 		(current->next)->prev = current;
 		current = current->next;
-		current->value = list->value);
+		current->value = list->value;
 		list = list->next;
 	}
 	current->next = NULL;

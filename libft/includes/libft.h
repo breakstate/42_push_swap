@@ -30,17 +30,17 @@ typedef struct		s_lists
 	struct s_list	*next;
 }					t_lists;
 
-t_list				*ft_lstnew(const void *content, size_t content_size);
-t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
+t_lists				*ft_lstnew(const void *content, size_t content_size);
+t_lists				*ft_lstmap(t_lists *lst, t_lists *(*f)(t_lists *elem));
 size_t				ft_strlen(const char *s);
 size_t				ft_strnlen(const char *s, size_t len);
 size_t				ft_strlcat(char *dest, const char *src, size_t size);
 void				**ft_dup_2d_arr(const void **arr, size_t w, size_t h);
-void				ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
+void				ft_lstdelone(t_lists **alst, void (*del)(void *, size_t));
 void				ft_free_2d_arr(void ***arr, size_t size);
-void				ft_lstadd(t_list **alst, t_list *new);
-void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
-void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
+void				ft_lstadd(t_lists **alst, t_lists *new);
+void				ft_lstdel(t_lists **alst, void (*del)(void *, size_t));
+void				ft_lstiter(t_lists *lst, void (*f)(t_lists *elem));
 void				ft_bzero(void *s, size_t n);
 void				ft_memdel(void **ap);
 void				ft_strdel(char **as);
