@@ -14,7 +14,7 @@ int		main(int argc, char **argv)
 		return (1);
 //	ft_nhlaka(pack.int_arr, pack.elements);//handoff to Nhlaka
 	//a_star(&pack);
-	while (i < pack.elements)
+	while (i < pack.size)
 		printf("---> %d\n", pack.array[i++]);
 	return (0);
 }
