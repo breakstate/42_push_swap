@@ -128,10 +128,10 @@ int			arr_stoi(char **arg, t_pack *pack)
 	int		i;
 
 	i = 0;
-	pack->elements = 0;
-	while (arg[pack->elements])
-		pack->elements++;
-	pack->array = (int *)ft_memalloc(sizeof(int) * pack->elements);
+	pack->size = 0;
+	while (arg[pack->size])
+		pack->size++;
+	pack->array = (int *)ft_memalloc(sizeof(int) * pack->size);
 	if (pack->array == NULL)
 	{
 		return (0);

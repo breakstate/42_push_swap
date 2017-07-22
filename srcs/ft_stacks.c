@@ -1,4 +1,4 @@
-#include "ft_push_swap.h"
+#include "../push_swap.h"
 
 t_stack *ft_init_stack(int *a, int size)
 {

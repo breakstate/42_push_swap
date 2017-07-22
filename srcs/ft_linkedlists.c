@@ -1,4 +1,4 @@
-#include "ft_push_swap.h"
+#include "../push_swap.h"
 
 void    ft_create_elem_front(t_list **top, int value)
 {
