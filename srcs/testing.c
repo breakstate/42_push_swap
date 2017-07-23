@@ -234,7 +234,7 @@ int			is_rule_rev(char *parent_rule, char *rule_to_make)
 }*/
 
 int			expand(t_node *node, t_nodelist **open,
-					t_list	*final_state, t_pack *pack)
+					t_pack	*final_state, t_pack *pack)
 {
 	int		i;
 	char	**move_list;
@@ -251,11 +251,11 @@ int			expand(t_node *node, t_nodelist **open,
 		current = ft_create_node(pack, node, final_state, move_list[i]);
 		ft_add_to_openset(open, current);
 	}
-	ft_free_2d_arr((void ***)&move_list, 11);
+//	ft_free_2d_arr((void ***)&move_list, 11);
 	return (TRUE);
 }
 
-void		expand_open_set(t_nodelist **open, t_list *final_state,
+void		expand_open_set(t_nodelist **open, t_pack *final_state,
 				t_pack *pack, t_stack *stack_a)
 {
 	t_nodelist	*closed;
@@ -267,19 +267,43 @@ void		expand_open_set(t_nodelist **open, t_list *final_state,
 			break ;
 		ft_pop_to_closedset(&closed, open);
 	}
-	free(open);
-	free(closed);
+//	free(open);
+//	free(closed);
+}
+
+t_pack			*create_final_state(t_pack *pack)
+{
+	t_pack	*final_state;
+	int		i;
+
+	final_state = (t_pack *)malloc(sizeof(t_pack));
+	if (final_state)
+	{
+		final_state->array = (int *)malloc(sizeof(int) * (pack->size));
+		if(final_state->array)
+		{
+			i = 0;
+			while (i < pack->size)
+			{
+				(final_state->array)[i] = (pack->array)[i];
+				i++;
+			}
+			final_state->size = pack->size;
+		}
+	}
+	sort_arr(&(final_state->array), (final_state->size));
+	return (final_state);
 }
 
 void		a_star(t_pack *pack)
 {
 	t_stack		*stack_a;
-	t_list		*final_state;
+	t_pack		*final_state;
 	t_node		*start;
 	t_nodelist	*open;
 
 	stack_a = ft_init_stack(pack->array, pack->size);
-	final_state = NULL // sort_list(stack_a->back);
+	final_state = create_final_state(pack);
 	start = ft_create_node(pack, NULL, final_state, NULL);
 	open = NULL;
 	ft_add_to_openset(&open, start);
@@ -545,7 +569,7 @@ void	ft_add_to_openset(t_nodelist **open, t_node *node)
 					current->next = temp;
 					current = NULL;
 				}
-				else if((next->node)->weight > node->weight)
+				else //if((next->node)->weight > node->weight)
 				{
 					current->next = temp;
 					temp->next = next;
@@ -649,21 +673,32 @@ char		**list_of_moves(void)
 /*
 ** ----------------------->in file ft_node.c<-----------------------------
 */
-t_node	*ft_create_node(t_pack *pack, t_node *parent, t_list *final, char *rule)	//PASSED
+t_node	*ft_create_node(t_pack *pack, t_node *parent, t_pack *final, char *rule)	//PASSED
 {
 	t_node *node;
 
 	node = (t_node*)malloc(sizeof(t_node));
 	node->rule = rule;
-	node->a = parent->a;
-	node->b = parent->b;
 	node->parent = parent;
 	if(parent)
+	{
+		node->a = parent->a;
+		node->b = parent->b;
 		node->steps = (parent->steps + 1);
+	}
 	else
+	{
 		node->steps = 0;
+		node->a = ft_init_stack(pack->array, pack->size);
+		node->b = ft_init_stack(pack->array, 0);
+	}
 	node->weight = ft_calc_weight(node, final, pack);
 	return (node);
+}
+
+int		ft_calc_weight(t_node *node, t_pack *final, t_pack *pack)
+{
+	return (1);
 }
 /*
 int	 ft_calc_weight(t_node *node, t_list *final) //PASSED
@@ -698,7 +733,7 @@ int	 ft_calc_weight(t_node *node, t_list *final) //PASSED
 	}
 	return (count + (node->steps));
 }
-*/
+*//*
 int		ft_calc_weight(t_node *node, t_list *final, t_pack *pack)
 {
 	t_stack	*stack_a;
@@ -737,7 +772,7 @@ int		ft_calc_weight(t_node *node, t_list *final, t_pack *pack)
 			break ;
 	}
 	return (count + (node->steps));
-}
+}*/
 
 /*
 ** ------------------------>in file apply_rule.c<-------------------------------
@@ -868,5 +903,32 @@ void	ft_RRR(t_stack *a, t_stack *b)
 }
 
 /*
-** ------------------------>in file .c<---------------------------------
+** ------------------------>in file sort_arr.c<---------------------------------
 */
+
+void	sort_arr(int **arr, int size)
+{
+	int		temp;
+	int		flag;
+	int		i;
+
+	i = 0;
+	temp = 0;
+	flag = 0;
+	while (i < size - 1)
+	{
+		if ((*arr)[i] > (*arr)[i + 1])
+		{
+			temp = (*arr)[i];
+			(*arr)[i] = (*arr)[i + 1];
+			(*arr)[i + 1] = temp;
+			flag = 1;
+		}
+		i++;
+		if (i == size - 1 && flag == 1)
+		{
+			i = 0;
+			flag = 0;
+		}
+	}
+}

@@ -90,12 +90,11 @@ void			ft_free_list(t_list **list);
 t_stack			*ft_create_stack(void);
 t_list			*ft_create_elem_back(t_list **back, int value);
 void			ft_create_elem_front(t_list **top, int value);
-t_node			*ft_create_node(t_pack *pack, t_node *parent, t_list *final, char *rule);
+t_node			*ft_create_node(t_pack *pack, t_node *parent, t_pack *final, char *rule);
 void			ft_add_to_openset(t_nodelist **open, t_node *node);
 void			ft_pop_to_closedset(t_nodelist **closed, t_nodelist **open);
 void			ft_free_stack(t_stack *stack);
 void			ft_add_elem(t_list **list, t_list *elem, int front);
-int				ft_calc_weight(t_node *node, t_list *final, t_pack *pack);
 void			apply_rule(t_node *node, char *rule);
 
 
@@ -122,9 +121,11 @@ void			ft_RRR(t_stack *a, t_stack *b);
 char		**move_list(t_node *node);
 void		a_star(t_pack *pack);
 int			expand(t_node *node, t_nodelist **open,
-					t_list	*final_state, t_pack *pack);
-void		expand_open_set(t_nodelist **open, t_list *final_state,
+					t_pack	*final_state, t_pack *pack);
+void		expand_open_set(t_nodelist **open, t_pack *final_state,
 				t_pack *pack, t_stack *stack_a);
 char		**list_of_moves(void);
+void		sort_arr(int **arr, int size);
+int			ft_calc_weight(t_node *node, t_pack *final, t_pack *pack);
 
 #endif
