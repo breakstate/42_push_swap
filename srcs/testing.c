@@ -255,6 +255,11 @@ int			expand(t_node *node, t_nodelist **open,
 	return (TRUE);
 }
 
+void		put_move_list(t_node *node)
+{
+
+}
+
 void		expand_open_set(t_nodelist **open, t_pack *final_state,
 				t_pack *pack, t_stack *stack_a)
 {
@@ -264,7 +269,10 @@ void		expand_open_set(t_nodelist **open, t_pack *final_state,
 	while (*open)
 	{
 		if (expand((*open)->node, open, final_state, pack) == FALSE)
+		{
+			put_move_list((*open)->node);
 			break ;
+		}
 		ft_pop_to_closedset(&closed, open);
 	}
 //	free(open);
