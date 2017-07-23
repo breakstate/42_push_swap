@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-void	ft_lstiter(t_list *lst, void (*f)(t_list *elem))
+void	ft_lstiter(t_lists *lst, void (*f)(t_lists *elem))
 {
-	t_list	*crawler;
+	t_lists	*crawler;
 
 	if (lst != NULL && f != NULL)
 	{
