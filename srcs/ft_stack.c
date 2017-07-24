@@ -15,7 +15,6 @@ void    ft_add_elem_front(t_list **top, int value)
     {
         elem->next = *top;
         (*top)->prev = elem;
-        
         *top = elem;
     }
     else
@@ -76,8 +75,10 @@ t_stack *ft_create_stack(int *a, int size)
     int     i;
 
     stack = (t_stack*)malloc(sizeof(t_stack));
+    //if(stack){   //I think the if statment should be here
     stack->front = NULL;
     stack->back = NULL;
+    //if (a){
     ft_add_elem_front(&(stack->front), a[0]);
     stack->back = stack->front;
     i = 1;
@@ -89,5 +90,6 @@ t_stack *ft_create_stack(int *a, int size)
             i++;
         }
     }
+    //}
     return (stack);
 }
