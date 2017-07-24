@@ -1,25 +1,32 @@
 #include "push_swap.h"
 
-t_list		copy_linked_list(t_list *list)
+t_stack		*copy_linked_stack(t_stack *stack)
 {
-	t_list	*new_list;
-	t_list	*current
+	t_stack	*new_stack;
+	t_list	*to
+	t_list	*from
 
-	if (list == NULL)
+	if (stack == NULL)
 		return NULL;
-	new_list = (t_list *)malloc(sizeof(t_list));
-	new_list->value = list->value;
-	new_list->prev = NULL;
-	current = new_list;
-	list = list->next;
-	while(list != NULL) 
+	new_stack->front = (t_list *)malloc(sizeof(t_list));
+	new_stack->back = (t_list *)malloc(sizeof(t_list));
+	if (stack->front != NULL)
 	{
-		current->next = malloc(sizeof(t_list);
+		
+	}
+	stack
+/*	new_stack->value = stack->value;
+	new_stack->prev = NULL;
+	current = new_stack;
+	stack = stack->next;
+	while(stack != NULL) 
+	{
+		current->next = malloc(sizeof(t_stack);
 		(current->next)->prev = current;
 		current = current->next;
-		current->value = list->value);
-		list = list->next;
+		current->value = stack->value);
+		stack = stack->next;
 	}
 	current->next = NULL;
-	return (new_list);
+*/	return (&new_stack);
 }

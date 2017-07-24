@@ -39,8 +39,8 @@ typedef struct		s_node
 	struct s_node	*parent;
 	char			*move;
 	size_t			steps;
-	t_stack			a;
-	t_stack			b;
+	t_stack			*a;
+	t_stack			*b;
 }					t_node;
 
 /*
