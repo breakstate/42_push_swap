@@ -520,7 +520,7 @@ char		**move_list(t_node *node)
 	{
 		current = node;
 		moves_list[node->steps] = (char *)malloc(sizeof(char) * 1);
-		moves_list[node->steps] = '\0';
+		moves_list[node->steps] = NULL;
 		index = node->steps - 1;
 		while ((index <= 0) && (current != NULL) && (current->rule != NULL))
 		{
@@ -528,7 +528,7 @@ char		**move_list(t_node *node)
 			index--;
 			current = node->parent;
 		}
-	}
+	} 
 	return (moves_list);
 }
 

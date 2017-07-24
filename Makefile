@@ -108,7 +108,7 @@ n:
 	clang nmbotho/*.c -Wall -Wextra -Werror
 
 
-test: $(SRCS) $(PUSH_MAIN)
+test: $(HEADER) srcs/testing.c
 	@$(CC) -o test ./srcs/testing.c \
 		-I $(INCLUDE) -I $(LIBFT_INC) \
 		-L ./libft/ -lft
