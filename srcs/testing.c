@@ -31,9 +31,9 @@ int		main(int argc, char **argv)
 		return (1);
 //	ft_nhlaka(pack.int_arr, pack.elements);//handoff to Nhlaka
 	a_star(&pack);
- 	while (i < pack.size)
+/*	while (i < pack.size)
 		printf("---> %d\n", pack.array[i++]);
-	return (1); 
+*/	return (0); 
 }
 
 /*
@@ -204,35 +204,53 @@ int			arr_stoi(char **arg, t_pack *pack)
 ** ---------------------------->in file a_star.c<-------------------------------
 */
 
-/* sort out later
-int			is_rule_rev(char *parent_rule, char *rule_to_make)
+static int	is_rule_rev(char *parent_rule, char *rule_to_make)
 {
-	if (!ft_strcmp("SS", rule_to_make) &&
-			(!ft_strcmp("SB", parent_rule) || !ft_strcmp("SA", parent_rule)))
-		return TRUE;
-	if (!ft_strcmp("SB", rule_to_make) && !ft_strcmp("SB", parent_rule))
-		return TRUE;
-	if (!ft_strcmp("SA", rule_to_make) && !ft_strcmp("SA", parent_rule))
-		ft_SS(a, b);
-	if (ft_strcmp("PA", parent_rule) == 0)
-		ft_PA_PB(b, a);
-	if (ft_strcmp("PB", parent_rule) == 0)
-		ft_PA_PB(a, b);
-	if (ft_strcmp("RA", parent_rule) == 0)
-		ft_RA_RB(a);
-	if (ft_strcmp("RB", parent_rule) == 0)
-		ft_RA_RB(b);
-	if (ft_strcmp("RR", parent_rule) == 0)
-		ft_RR(a, b);
-	if (ft_strcmp("RRA", parent_rule) == 0)
-		ft_RRA_RRB(a);
-	if (ft_strcmp("RRB", parent_rule) == 0)
-		ft_RRA_RRB(b);
-	if (ft_strcmp("RRR", parent_rule) == 0)
-		ft_RRR(a, b);
+	if (rule_to_make && parent_rule)
+	{
+	if (!ft_strcmp("SA", parent_rule) &&
+			(ft_strcmp("SA", rule_to_make) || ft_strcmp("SS", rule_to_make)))
+		return (TRUE);
+	else if (!ft_strcmp("SB", parent_rule) &&
+			(!ft_strcmp("SB", rule_to_make) || !ft_strcmp("SS", rule_to_make)))
+		return (TRUE);
+	else if (!ft_strcmp("SS", parent_rule) &&
+			!(ft_strcmp("SB", rule_to_make) || !ft_strcmp("SS", rule_to_make) ||
+			!ft_strcmp("SS", rule_to_make)))
+		return (TRUE);
+	else if (!ft_strcmp("PA", parent_rule) &&
+			(!ft_strcmp("PB", rule_to_make)))
+		return (TRUE);
+	else if (!ft_strcmp("PB", parent_rule) &&
+			(!ft_strcmp("PA", rule_to_make)))
+		return (TRUE);
+	else if (!ft_strcmp("RA", parent_rule)
+			&& (!ft_strcmp("RRA", rule_to_make)
+				|| !ft_strcmp("RRR", rule_to_make)))
+		return (TRUE);
+	else if (!ft_strcmp("RB", parent_rule)
+			&& (!ft_strcmp("RRB", rule_to_make)
+			|| !ft_strcmp("RRR", rule_to_make)))
+		return (TRUE);
+	else if (!ft_strcmp("RR", parent_rule) &&
+			(!ft_strcmp("RRA", rule_to_make) || !ft_strcmp("RRB", rule_to_make)
+			|| !ft_strcmp("RRR", rule_to_make)))
+		return (TRUE);
+	else if (!ft_strcmp("RRA", parent_rule) &&
+			(!ft_strcmp("RA", rule_to_make) || !ft_strcmp("RR", rule_to_make)))
+		return (TRUE);
+	else if (!ft_strcmp("RRB", parent_rule) &&
+			(!ft_strcmp("RB", rule_to_make) || !ft_strcmp("RR", rule_to_make)))
+		return (TRUE);
+	else if (!ft_strcmp("RRR", parent_rule) &&
+			(!ft_strcmp("RA", rule_to_make) || !ft_strcmp("RB", rule_to_make)
+			|| !ft_strcmp("RR", rule_to_make)))
+		return (TRUE);
+	}
 	else
 		return (FALSE);
-}*/
+	
+}
 
 int			expand(t_node *node, t_nodelist **open,
 					t_pack	*final_state, t_pack *pack)
@@ -247,8 +265,8 @@ int			expand(t_node *node, t_nodelist **open,
 	list_of_all_moves = create_list_of_all_moves();
 	while (++i <= 10)
 	{
-		//if (node_rev(node->rule, list_of_all_moves[i]) == TRUE)
-		//	continue ;
+		if (is_rule_rev(node->rule, list_of_all_moves[i]) == TRUE)
+			continue ;
 		current = ft_create_node(pack, node, final_state, list_of_all_moves[i]);
 		ft_add_to_openset(open, current);
 	}
@@ -274,16 +292,20 @@ void		expand_open_set(t_nodelist **open, t_pack *final_state,
 				t_pack *pack, t_stack *stack_a)
 {
 	t_nodelist	*closed;
+	t_node		*current;
 
 	closed = NULL;
+	current = NULL;
 	while (*open)
 	{
-		if (expand((*open)->node, open, final_state, pack) == FALSE)
+		current = (*open)->node;
+		ft_pop_to_closedset(&closed, open);
+ 		if (expand(current, open, final_state, pack) == FALSE)
 		{
-			print_move_list((*open)->node);
+			print_move_list(current);
 			break ;
 		}
-		ft_pop_to_closedset(&closed, open);
+		//ft_pop_to_closedset(&closed, open);
 	}
 //	free(open);
 //	free(closed);
@@ -481,9 +503,11 @@ t_list	*ft_pop_out_back(t_list **back)
 	if(*back)
 	{
 		old_back = *back;
-		new_back = old_back->prev;
-		new_back->next = NULL;
-		old_back->prev = NULL;
+		new_back = (*back)->prev;
+		if (new_back)
+			new_back->next = NULL;
+		if (old_back)
+			old_back->prev = NULL;
 		*back = new_back;
 		return (old_back);
 	}
@@ -588,10 +612,12 @@ void	ft_add_to_openset(t_nodelist **open, t_node *node)
 				}
 				else //if((next->node)->weight > node->weight)
 				{
-					current->next = temp;
+					prev = current;
+					current = next;
+					/*current->next = temp;
 					temp->next = next;
 					current = NULL;
-				}
+				*/}
 			}
 			else if(node->weight > (current->node)->weight)
 			{
@@ -603,8 +629,8 @@ void	ft_add_to_openset(t_nodelist **open, t_node *node)
 				}
 				else
 				{
-					current = next;
 					prev = current;
+					current = next;
 				}
 			}
 			else
@@ -697,6 +723,7 @@ t_node	*ft_create_node(t_pack *pack, t_node *parent, t_pack *final, char *rule)	
 	node = (t_node*)malloc(sizeof(t_node));
 	node->rule = rule;
 	node->parent = parent;
+	node->weight = 0;
 	if(parent)
 	{
 		node->a = parent->a;

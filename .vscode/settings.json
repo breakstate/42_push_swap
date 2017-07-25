@@ -1,6 +1,11 @@
 {
 	"files.associations": {
 		"libft.h": "c",
-		"push_swap.h": "c"
+		"push_swap.h": "c",
+		"string.h": "c",
+		"unistd.h": "c",
+		"stdio2.h": "c",
+		"libio.h": "c",
+		"stddef.h": "c"
 	}
 }
