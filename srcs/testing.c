@@ -248,8 +248,7 @@ static int	is_rule_rev(char *parent_rule, char *rule_to_make)
 		return (TRUE);
 	}
 	else
-		return (FALSE);
-	
+		return (FALSE);	
 }
 
 int			expand(t_node *node, t_nodelist **open,
