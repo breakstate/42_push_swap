@@ -111,5 +111,5 @@ n:
 test: $(HEADER) srcs/testing.c
 	@$(CC) -o test ./srcs/testing.c \
 		-I $(INCLUDE) -I $(LIBFT_INC) \
-		-L ./libft/ -lft
+		-L ./libft/ -lft -g
 	@echo "------------->test COMPILED<--------------"

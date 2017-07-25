@@ -24,6 +24,7 @@ int		main(int argc, char **argv)
 	t_ll	i;
 
 	i = 0;
+//	printf("---> hello");
 	if (!(verify_argc(argc)))
 		return (1);
 	if (!(verify_args(argv[1], &pack)))
@@ -32,7 +33,7 @@ int		main(int argc, char **argv)
 	a_star(&pack);
  	while (i < pack.size)
 		printf("---> %d\n", pack.array[i++]);
-	return (0);
+	return (1); 
 }
 
 /*
@@ -251,7 +252,7 @@ int			expand(t_node *node, t_nodelist **open,
 		current = ft_create_node(pack, node, final_state, list_of_all_moves[i]);
 		ft_add_to_openset(open, current);
 	}
-//	ft_free_2d_arr((void ***)&list_of_all_moves, 11);
+//	ft_free_2d_arr((void ***)&list_of_all_moves, 11); 
 	return (TRUE);
 }
 
@@ -686,7 +687,7 @@ char		**create_list_of_all_moves(void)
 	return (list_of_moves);
 }
 
-/* moves_to_current
+/*
 ** ----------------------->in file ft_node.c<-----------------------------
 */
 t_node	*ft_create_node(t_pack *pack, t_node *parent, t_pack *final, char *rule)	//PASSED
@@ -708,20 +709,60 @@ t_node	*ft_create_node(t_pack *pack, t_node *parent, t_pack *final, char *rule)	
 		node->a = ft_init_stack(pack->array, pack->size);
 		node->b = ft_init_stack(pack->array, 0);
 	}
-	node->weight = ft_calc_weight(node, final, pack);
+	node->weight = calc_weight(node, final, pack);
 	return (node);
 }
 
-int		ft_calc_weight(t_node *node, t_pack *final, t_pack *pack)
+long	calc_h_value_riseing (t_list *list_a, t_list *list_b, t_pack *final)
+{
+	int		*the_solution_array;
+	int		index;
+	t_list	*current;
+	long	h_value;
+
+	the_solution_array = final->array;
+	index = -1;
+	h_value = 0;
+	while(++index < final->size)
+	{
+		if (list_b)
+		{
+			if (list_b->value == the_solution_array[index])
+				h_value = h_value + 1;
+			else
+				h_value = h_value + 3;
+			list_b = list_b->prev;
+		}
+		else if (list_a)
+		{
+			if (list_a->value != the_solution_array[index])
+				h_value = h_value + 2;
+			list_a = list_a->next;
+		}
+	}
+	return (h_value);
+}
+
+int		calc_weight(t_node *node, t_pack *final, t_pack *pack)
 {
 	t_stack	*stack_a;
 	t_stack	*stack_b;
 	char	**the_move_list;
+	t_ll	index;
+	long	h_value;
 
 	stack_a = ft_init_stack(pack->array, pack->size);
-	stack_b = NULL;
+	stack_b = ft_init_stack(NULL, 0);
 	the_move_list = moves_to_current(node);
-	return (4);
+	index = 0;
+	while (the_move_list[index])// && index < node->steps)
+	{
+		apply_rule(stack_a, stack_b, the_move_list[index]);
+		index++;
+	}
+	h_value = calc_h_value_riseing(stack_a->front, stack_b->back, final);
+
+	return (h_value + (node->steps));
 }
 /*
 int	 ft_calc_weight(t_node *node, t_list *final) //PASSED
@@ -800,34 +841,29 @@ int		ft_calc_weight(t_node *node, t_list *final, t_pack *pack)
 /*
 ** ------------------------>in file apply_rule.c<-------------------------------
 */
-void		apply_rule(t_node *node, char *rule)
+void		apply_rule(t_stack *a, t_stack *b, char *rule)
 {
-	t_stack *a;
-	t_stack *b;
-
-	a = node->a;
-	b = node->b;
 	if (ft_strcmp("SA", rule) == 0)
 		ft_SA_SB(a);
-	if (ft_strcmp("SB", rule) == 0)
+	else if (ft_strcmp("SB", rule) == 0)
 		ft_SA_SB(b);
-	if (ft_strcmp("SS", rule) == 0)
+	else if (ft_strcmp("SS", rule) == 0)
 		ft_SS(a, b);
-	if (ft_strcmp("PA", rule) == 0)
+	else if (ft_strcmp("PA", rule) == 0)
 		ft_PA_PB(b, a);
-	if (ft_strcmp("PB", rule) == 0)
+	else if (ft_strcmp("PB", rule) == 0)
 		ft_PA_PB(a, b);
-	if (ft_strcmp("RA", rule) == 0)
+	else if (ft_strcmp("RA", rule) == 0)
 		ft_RA_RB(a);
-	if (ft_strcmp("RB", rule) == 0)
+	else if (ft_strcmp("RB", rule) == 0)
 		ft_RA_RB(b);
-	if (ft_strcmp("RR", rule) == 0)
+	else if (ft_strcmp("RR", rule) == 0)
 		ft_RR(a, b);
-	if (ft_strcmp("RRA", rule) == 0)
+	else if (ft_strcmp("RRA", rule) == 0)
 		ft_RRA_RRB(a);
-	if (ft_strcmp("RRB", rule) == 0)
+	else if (ft_strcmp("RRB", rule) == 0)
 		ft_RRA_RRB(b);
-	if (ft_strcmp("RRR", rule) == 0)
+	else if (ft_strcmp("RRR", rule) == 0)
 		ft_RRR(a, b);
 }
 
@@ -837,6 +873,7 @@ void		apply_rule(t_node *node, char *rule)
 void	ft_SA_SB(t_stack *a)
 {
 	t_list *b;
+
 	if(a->front)
 	{
 		if(a->front->next)
