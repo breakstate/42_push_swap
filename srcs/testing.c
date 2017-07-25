@@ -739,7 +739,7 @@ t_node	*ft_create_node(t_pack *pack, t_node *parent, t_pack *final, char *rule)	
 	return (node);
 }
 
-long	calc_h_value_riseing (t_list *list_a, t_list *list_b, t_pack *final)
+long	calc_h_value_riseing(t_list *list_a, t_list *list_b, t_pack *final)
 {
 	int		*the_solution_array;
 	int		index;
@@ -766,6 +766,20 @@ long	calc_h_value_riseing (t_list *list_a, t_list *list_b, t_pack *final)
 			list_a = list_a->next;
 		}
 	}
+	return (h_value);
+}
+
+long	calc_h_value_riseing_revise(t_list *list_a, t_list *list_b, t_pack *final)
+{
+	int		*the_solution_array;
+	int		index;
+	t_list	*current;
+	long	h_value;
+
+	the_solution_array = final->array;
+	index = -1;
+	h_value = 0;
+	if(list_a)
 	return (h_value);
 }
 
