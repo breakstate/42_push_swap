@@ -21,7 +21,7 @@
 int		main(int argc, char **argv)
 {
 	t_pack	pack;
-	int		i;
+	t_ll	i;
 
 	i = 0;
 	if (!(verify_argc(argc)))
@@ -237,27 +237,36 @@ int			expand(t_node *node, t_nodelist **open,
 					t_pack	*final_state, t_pack *pack)
 {
 	int		i;
-	char	**move_list;
+	char	**list_of_all_moves;
 	t_node	*current;
 
 	if (node->weight == node->steps)
 		return (FALSE);
 	i = -1;
-	move_list = list_of_moves();
+	list_of_all_moves = create_list_of_all_moves();
 	while (++i <= 10)
 	{
-		//if (node_rev(node->rule, move_list[i]) == TRUE)
+		//if (node_rev(node->rule, list_of_all_moves[i]) == TRUE)
 		//	continue ;
-		current = ft_create_node(pack, node, final_state, move_list[i]);
+		current = ft_create_node(pack, node, final_state, list_of_all_moves[i]);
 		ft_add_to_openset(open, current);
 	}
-//	ft_free_2d_arr((void ***)&move_list, 11);
+//	ft_free_2d_arr((void ***)&list_of_all_moves, 11);
 	return (TRUE);
 }
 
-void		put_move_list(t_node *node)
+void		print_move_list(t_node *node)
 {
+	char	**final_move_list;
+	int		index;
 
+	final_move_list = moves_to_current(node);
+	index = 0;
+	while (final_move_list[index])
+	{
+		ft_putendl_fd(final_move_list[index], 2);
+		index++;
+	}
 }
 
 void		expand_open_set(t_nodelist **open, t_pack *final_state,
@@ -270,7 +279,7 @@ void		expand_open_set(t_nodelist **open, t_pack *final_state,
 	{
 		if (expand((*open)->node, open, final_state, pack) == FALSE)
 		{
-			put_move_list((*open)->node);
+			print_move_list((*open)->node);
 			break ;
 		}
 		ft_pop_to_closedset(&closed, open);
@@ -433,7 +442,7 @@ void	ft_add_elem(t_list **list, t_list *elem, int front)
 			(*list)->next = elem;
 			elem->next = NULL;
 		}
-		//	printf("elem = %p, value = %d\n", elem, elem->value);
+		//	printf("elem = %p, value = %d\n",long long elem, elem->value);
 	//	 printf("*list = %p, value = %d\n", *list, (*list)->value);
 		*list = elem;
 	}
@@ -509,10 +518,10 @@ t_stack		*ft_init_stack(int *a, int size)
 /*
 ** ------------------------->in file move_list.c<-------------------------------
 */
-char		**move_list(t_node *node)
+char		**moves_to_current(t_node *node)
 {
 	char	**moves_list;
-	size_t	index;
+	t_ll	index;
 	t_node	*current;
 
 	moves_list = (char **)malloc(sizeof(char *) * (node->steps + 1));
@@ -522,7 +531,7 @@ char		**move_list(t_node *node)
 		moves_list[node->steps] = (char *)malloc(sizeof(char) * 1);
 		moves_list[node->steps] = NULL;
 		index = node->steps - 1;
-		while ((index <= 0) && (current != NULL) && (current->rule != NULL))
+		while ((index >= 0) && (current != NULL) && (current->rule != NULL))
 		{
 			moves_list[index] = ft_strdup((const char *)current->rule);
 			index--;
@@ -532,7 +541,7 @@ char		**move_list(t_node *node)
 	return (moves_list);
 }
 
-/*
+/* 
 ** -------------------------->in file ft_sets.c<--------------------------------
 */
 #include "../push_swap.h"
@@ -550,10 +559,9 @@ void	ft_add_to_openset(t_nodelist **open, t_node *node)
 	temp->next = NULL;
 	prev = NULL;
 	next = NULL;
-	int i = 0;
 	if(*open)
 	{
-		while(current && i < 10)
+		while(current)
 		{
 			next = current->next;
 			if(node->weight < (current->node)->weight)
@@ -662,7 +670,7 @@ static void	assaign_rule_list(char	***list_of_moves)
 		(*list_of_moves)[10] = "RRR";
 }
 
-char		**list_of_moves(void)
+char		**create_list_of_all_moves(void)
 {
 	char	**list_of_moves;
 	int		index;
@@ -678,7 +686,7 @@ char		**list_of_moves(void)
 	return (list_of_moves);
 }
 
-/*
+/* moves_to_current
 ** ----------------------->in file ft_node.c<-----------------------------
 */
 t_node	*ft_create_node(t_pack *pack, t_node *parent, t_pack *final, char *rule)	//PASSED
@@ -706,7 +714,14 @@ t_node	*ft_create_node(t_pack *pack, t_node *parent, t_pack *final, char *rule)	
 
 int		ft_calc_weight(t_node *node, t_pack *final, t_pack *pack)
 {
-	return (1);
+	t_stack	*stack_a;
+	t_stack	*stack_b;
+	char	**the_move_list;
+
+	stack_a = ft_init_stack(pack->array, pack->size);
+	stack_b = NULL;
+	the_move_list = moves_to_current(node);
+	return (4);
 }
 /*
 int	 ft_calc_weight(t_node *node, t_list *final) //PASSED

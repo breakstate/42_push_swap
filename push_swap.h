@@ -4,6 +4,9 @@
 # define _FRONT 1
 # define _BACK 0
 
+typedef long long t_ll;
+typedef unsigned long long t_ull;
+
 /*
 **	-----------------\
 **	structs structure
@@ -33,19 +36,11 @@ typedef struct		s_node
 	int				steps;
 }					t_node;
 
-/*
-** maybe make one struct
-*/
-
 typedef struct		s_nodelist
 {
 	t_node				*node;
 	struct s_nodelist	*next;
 }					t_nodelist;
-
-/*
-** fix below
-*/
 
 /*
 **	-----------------\
@@ -58,7 +53,6 @@ typedef struct		s_pack
 	int				*array;
 	int				size;
 }					t_pack;
-
 
 /*
 **	in file ps_verify.c
@@ -124,8 +118,10 @@ int			expand(t_node *node, t_nodelist **open,
 					t_pack	*final_state, t_pack *pack);
 void		expand_open_set(t_nodelist **open, t_pack *final_state,
 				t_pack *pack, t_stack *stack_a);
-char		**list_of_moves(void);
+char		**create_list_of_all_moves(void);
 void		sort_arr(int **arr, int size);
 int			ft_calc_weight(t_node *node, t_pack *final, t_pack *pack);
+void		print_move_list(t_node *node);
+char		**moves_to_current(t_node *node);
 
 #endif
