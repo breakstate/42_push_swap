@@ -122,6 +122,7 @@ void		sort_arr(int **arr, int size);
 long		calc_weight(t_node *node, t_pack *final, t_pack *pack);
 void		print_move_list(t_node *node);
 char		**moves_to_current(t_node *node);
-void		apply_rule(t_stack *a, t_stack *b, char *rule);
+void		apply_rule(t_stack **a, t_stack **b, char *rule);
 int			useless_rule(t_node *node, char *move);
+
 #endif

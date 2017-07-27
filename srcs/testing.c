@@ -251,10 +251,27 @@ static int	is_rule_rev(char *parent_rule, char *rule_to_make)
 		return (FALSE);	
 }
 
+/*
+** in useless_rule if there is nothing in list front and back are the same 
+** i.e. NULL
+*/
+
 int		useless_rule(t_node *node, char *move)
 {
-	if ((node->a->front == NULL) )//&& ())
-		;
+	if ((node->a->front == node->a->back)
+			&& ((!ft_strcmp(move, "sa") || !ft_strcmp(move, "ss")
+				|| !ft_strcmp(move, "ra") || !ft_strcmp(move, "rra")
+				|| !ft_strcmp(move, "rr") || !ft_strcmp(move, "rrr"))))
+		return (TRUE);
+	if ((node->b->front == node->b->back)
+			&& ((!ft_strcmp(move, "sb") || !ft_strcmp(move, "ss")
+				|| !ft_strcmp(move, "rb") || !ft_strcmp(move, "rrb")
+				|| !ft_strcmp(move, "rr") || !ft_strcmp(move, "rrr"))))
+		return (TRUE);
+	if ((node->a->front == NULL) && (!ft_strcmp(move, "pb")))
+		return (TRUE);
+	if ((node->b->front == NULL) && (!ft_strcmp(move, "pa")))
+		return (TRUE);
 	return (FALSE);
 }
 
@@ -265,7 +282,7 @@ int			expand(t_node *node, t_nodelist **open,
 	char	**list_of_all_moves;
 	t_node	*current;
 
-	if (node->weight == (long)node->steps)
+	if (node->weight <= (long)node->steps)
 		return (FALSE);
 	i = -1;
 	list_of_all_moves = create_list_of_all_moves();
@@ -810,7 +827,7 @@ long	calc_h_value_stack_a(t_pack *final, t_list *list_a)
 		return (0);
 	index = final->size - 1;
 	current = list_a;
-	avg = (final->size / 2) + 1;
+	avg = (final->size / 2);
 	h_value = 0;
 	while (index >= 0 && current != NULL)
 	{
@@ -837,7 +854,7 @@ long	calc_h_value_stack_b(t_pack *final, t_list *list_b)
 		return (0);
 	index = final->size - 1;
 	current = list_b;
-	avg = (final->size / 2) + 1;
+	avg = (final->size / 2);
 	h_value = 0;
 	while (index >= 0 && current != NULL)
 	{
@@ -882,7 +899,7 @@ long	calc_weight(t_node *node, t_pack *final, t_pack *pack)
 	index = 0;
 	while (the_move_list[index])// && index < node->steps)
 	{
-		apply_rule(stack_a, stack_b, the_move_list[index]);
+		apply_rule(&stack_a, &stack_b, the_move_list[index]);
 		index++;
 	}
 	h_value = calc_h_value(stack_a->back, stack_b->front, final);
@@ -966,30 +983,30 @@ int		ft_calc_weight(t_node *node, t_list *final, t_pack *pack)
 /*
 ** ------------------------>in file apply_rule.c<-------------------------------
 */
-void		apply_rule(t_stack *a, t_stack *b, char *rule)
+void		apply_rule(t_stack **a, t_stack **b, char *rule)
 {
 	if (ft_strcmp("sa", rule) == 0)
-		ft_SA_SB(a);
+		ft_SA_SB(*a);
 	else if (ft_strcmp("sb", rule) == 0)
-		ft_SA_SB(b);
+		ft_SA_SB(*b);
 	else if (ft_strcmp("ss", rule) == 0)
-		ft_SS(a, b);
+		ft_SS(*a, *b);
 	else if (ft_strcmp("pa", rule) == 0)
-		ft_PA_PB(b, a);
+		ft_PA_PB(*b, *a);
 	else if (ft_strcmp("pb", rule) == 0)
-		ft_PA_PB(a, b);
+		ft_PA_PB(*a, *b);
 	else if (ft_strcmp("ra", rule) == 0)
-		ft_RA_RB(a);
+		ft_RA_RB(*a);
 	else if (ft_strcmp("rb", rule) == 0)
-		ft_RA_RB(b);
+		ft_RA_RB(*b);
 	else if (ft_strcmp("rr", rule) == 0)
-		ft_RR(a, b);
+		ft_RR(*a, *b);
 	else if (ft_strcmp("rra", rule) == 0)
-		ft_RRA_RRB(a);
+		ft_RRA_RRB(*a);
 	else if (ft_strcmp("rrb", rule) == 0)
-		ft_RRA_RRB(b);
+		ft_RRA_RRB(*b);
 	else if (ft_strcmp("rrr", rule) == 0)
-		ft_RRR(a, b);
+		ft_RRR(*a, *b);
 }
 
 /*
@@ -997,18 +1014,34 @@ void		apply_rule(t_stack *a, t_stack *b, char *rule)
 */
 void	ft_SA_SB(t_stack *a)
 {
-	t_list *b;
+//	t_list *b;
+	t_list	*to_be_2;
+	t_list	*to_be_1;
+	t_list	*is_3;
 
 	if(a->front)
 	{
 		if(a->front->next)
 		{
-			b = a->front->next; /* store b, so you can use it to access c, B IS ALSO SOON TO BE FIRST */
-			a->front->prev = b; /* since a will no longer be first, point it to what was second (this case b)*/
-			a->front->next = b->next; /* use b to access c which is the third elemnt */
-			b->prev = NULL; /*the first element cant have a prev right? */
-			b->next = a->front; /* again since b is to be first and a is to be second, then its next should be what was first */
-			a->front = b; /* WE FINALLY CROWN B AS NEW KING */
+			to_be_1 = a->front->next;
+			to_be_2 = a->front;
+			is_3 = to_be_1->next;
+			to_be_1->prev = NULL;
+			to_be_1->next = to_be_2;
+			to_be_2->prev = to_be_1;
+			to_be_2->next = is_3;
+			a->front = to_be_1;
+			if (is_3 == NULL)
+				a->back = to_be_2;
+			else
+				is_3->prev = to_be_2;
+
+//			b = a->front->next; /* store b, so you can use it to access c, B IS ALSO SOON TO BE FIRST */
+//			a->front->prev = b; /* since a will no longer be first, point it to what was second (this case b)*/
+//			a->front->next = b->next; /* use b to access c which is the third elemnt */
+//			b->prev = NULL; /*the first element cant have a prev right? */
+//			b->next = a->front; /* again since b is to be first and a is to be second, then its next should be what was first */
+//			a->front = b; /* WE FINALLY CROWN B AS NEW KING */
 		}
 	}
 }
