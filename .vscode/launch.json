@@ -6,7 +6,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "/home/jerome/work/2017-Semester1/push_swap/test",
-			"args": ["2 1 4 3 5"],
+			"args": ["2 1 5 3 4"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceRoot}",
 			"environment": [],

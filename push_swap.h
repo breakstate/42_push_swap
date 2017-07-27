@@ -28,7 +28,7 @@ typedef struct		s_stack
 
 typedef struct		s_node
 {
-	int				weight;
+	long			weight;
 	struct s_node	*parent;
 	t_stack			*a;
 	t_stack			*b;
@@ -119,9 +119,9 @@ void		expand_open_set(t_nodelist **open, t_pack *final_state,
 				t_pack *pack, t_stack *stack_a);
 char		**create_list_of_all_moves(void);
 void		sort_arr(int **arr, int size);
-int			calc_weight(t_node *node, t_pack *final, t_pack *pack);
+long		calc_weight(t_node *node, t_pack *final, t_pack *pack);
 void		print_move_list(t_node *node);
 char		**moves_to_current(t_node *node);
 void		apply_rule(t_stack *a, t_stack *b, char *rule);
-
+int			useless_rule(t_node *node, char *move);
 #endif

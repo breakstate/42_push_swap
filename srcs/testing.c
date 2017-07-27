@@ -208,47 +208,54 @@ static int	is_rule_rev(char *parent_rule, char *rule_to_make)
 {
 	if (rule_to_make && parent_rule)
 	{
-	if (!ft_strcmp("SA", parent_rule) &&
-			(ft_strcmp("SA", rule_to_make) || ft_strcmp("SS", rule_to_make)))
+	if (!ft_strcmp("sa", parent_rule) &&
+			(ft_strcmp("sa", rule_to_make) || ft_strcmp("ss", rule_to_make)))
 		return (TRUE);
-	else if (!ft_strcmp("SB", parent_rule) &&
-			(!ft_strcmp("SB", rule_to_make) || !ft_strcmp("SS", rule_to_make)))
+	else if (!ft_strcmp("sb", parent_rule) &&
+			(!ft_strcmp("sb", rule_to_make) || !ft_strcmp("ss", rule_to_make)))
 		return (TRUE);
-	else if (!ft_strcmp("SS", parent_rule) &&
-			!(ft_strcmp("SB", rule_to_make) || !ft_strcmp("SS", rule_to_make) ||
-			!ft_strcmp("SS", rule_to_make)))
+	else if (!ft_strcmp("ss", parent_rule) &&
+			!(ft_strcmp("sb", rule_to_make) || !ft_strcmp("ss", rule_to_make) ||
+			!ft_strcmp("ss", rule_to_make)))
 		return (TRUE);
-	else if (!ft_strcmp("PA", parent_rule) &&
-			(!ft_strcmp("PB", rule_to_make)))
+	else if (!ft_strcmp("pa", parent_rule) &&
+			(!ft_strcmp("pb", rule_to_make)))
 		return (TRUE);
-	else if (!ft_strcmp("PB", parent_rule) &&
-			(!ft_strcmp("PA", rule_to_make)))
+	else if (!ft_strcmp("pb", parent_rule) &&
+			(!ft_strcmp("pa", rule_to_make)))
 		return (TRUE);
-	else if (!ft_strcmp("RA", parent_rule)
-			&& (!ft_strcmp("RRA", rule_to_make)
-				|| !ft_strcmp("RRR", rule_to_make)))
+	else if (!ft_strcmp("ra", parent_rule)
+			&& (!ft_strcmp("rra", rule_to_make)
+				|| !ft_strcmp("rrr", rule_to_make)))
 		return (TRUE);
-	else if (!ft_strcmp("RB", parent_rule)
-			&& (!ft_strcmp("RRB", rule_to_make)
-			|| !ft_strcmp("RRR", rule_to_make)))
+	else if (!ft_strcmp("rb", parent_rule)
+			&& (!ft_strcmp("rrb", rule_to_make)
+			|| !ft_strcmp("rrr", rule_to_make)))
 		return (TRUE);
-	else if (!ft_strcmp("RR", parent_rule) &&
-			(!ft_strcmp("RRA", rule_to_make) || !ft_strcmp("RRB", rule_to_make)
-			|| !ft_strcmp("RRR", rule_to_make)))
+	else if (!ft_strcmp("rr", parent_rule) &&
+			(!ft_strcmp("rra", rule_to_make) || !ft_strcmp("rrb", rule_to_make)
+			|| !ft_strcmp("rrr", rule_to_make)))
 		return (TRUE);
-	else if (!ft_strcmp("RRA", parent_rule) &&
-			(!ft_strcmp("RA", rule_to_make) || !ft_strcmp("RR", rule_to_make)))
+	else if (!ft_strcmp("rra", parent_rule) &&
+			(!ft_strcmp("ra", rule_to_make) || !ft_strcmp("rr", rule_to_make)))
 		return (TRUE);
-	else if (!ft_strcmp("RRB", parent_rule) &&
-			(!ft_strcmp("RB", rule_to_make) || !ft_strcmp("RR", rule_to_make)))
+	else if (!ft_strcmp("rrb", parent_rule) &&
+			(!ft_strcmp("rb", rule_to_make) || !ft_strcmp("rr", rule_to_make)))
 		return (TRUE);
-	else if (!ft_strcmp("RRR", parent_rule) &&
-			(!ft_strcmp("RA", rule_to_make) || !ft_strcmp("RB", rule_to_make)
-			|| !ft_strcmp("RR", rule_to_make)))
+	else if (!ft_strcmp("rrr", parent_rule) &&
+			(!ft_strcmp("ra", rule_to_make) || !ft_strcmp("rb", rule_to_make)
+			|| !ft_strcmp("rr", rule_to_make)))
 		return (TRUE);
 	}
 	else
 		return (FALSE);	
+}
+
+int		useless_rule(t_node *node, char *move)
+{
+	if ((node->a->front == NULL) )//&& ())
+		;
+	return (FALSE);
 }
 
 int			expand(t_node *node, t_nodelist **open,
@@ -258,13 +265,14 @@ int			expand(t_node *node, t_nodelist **open,
 	char	**list_of_all_moves;
 	t_node	*current;
 
-	if (node->weight == node->steps)
+	if (node->weight == (long)node->steps)
 		return (FALSE);
 	i = -1;
 	list_of_all_moves = create_list_of_all_moves();
 	while (++i <= 10)
 	{
-		if (is_rule_rev(node->rule, list_of_all_moves[i]) == TRUE)
+		if ((is_rule_rev(node->rule, list_of_all_moves[i]) == TRUE)
+				|| (useless_rule(node, list_of_all_moves[i]) == TRUE))
 			continue ;
 		current = ft_create_node(pack, node, final_state, list_of_all_moves[i]);
 		ft_add_to_openset(open, current);
@@ -673,27 +681,27 @@ void	ft_pop_to_closedset(t_nodelist **closed, t_nodelist **open)
 static void	assaign_rule_list(char	***list_of_moves)
 {
 	if ((*list_of_moves)[0])
-		(*list_of_moves)[0] = "SA";
+		(*list_of_moves)[0] = "sa";
 	if ((*list_of_moves)[1])
-		(*list_of_moves)[1] = "SB";
+		(*list_of_moves)[1] = "sb";
 	if ((*list_of_moves)[2])
-		(*list_of_moves)[2] = "SS";
+		(*list_of_moves)[2] = "ss";
 	if ((*list_of_moves)[3])
-		(*list_of_moves)[3] = "PA";
+		(*list_of_moves)[3] = "pa";
 	if ((*list_of_moves)[4])
-		(*list_of_moves)[4] = "PB";
+		(*list_of_moves)[4] = "pb";
 	if ((*list_of_moves)[5])
-		(*list_of_moves)[5] = "RA";
+		(*list_of_moves)[5] = "ra";
 	if ((*list_of_moves)[6])
-		(*list_of_moves)[6] = "RB";
+		(*list_of_moves)[6] = "rb";
 	if ((*list_of_moves)[7])
-		(*list_of_moves)[7] = "RR";
+		(*list_of_moves)[7] = "rr";
 	if ((*list_of_moves)[8])
-		(*list_of_moves)[8] = "RRA";
+		(*list_of_moves)[8] = "rra";
 	if ((*list_of_moves)[9])
-		(*list_of_moves)[9] = "RRB";
+		(*list_of_moves)[9] = "rrb";
 	if ((*list_of_moves)[10])
-		(*list_of_moves)[10] = "RRR";
+		(*list_of_moves)[10] = "rrr";
 }
 
 char		**create_list_of_all_moves(void)
@@ -738,7 +746,7 @@ t_node	*ft_create_node(t_pack *pack, t_node *parent, t_pack *final, char *rule)	
 	node->weight = calc_weight(node, final, pack);
 	return (node);
 }
-
+/*
 long	calc_h_value_riseing(t_list *list_a, t_list *list_b, t_pack *final)
 {
 	int		*the_solution_array;
@@ -767,9 +775,83 @@ long	calc_h_value_riseing(t_list *list_a, t_list *list_b, t_pack *final)
 		}
 	}
 	return (h_value);
+}*/
+
+long	steps_to_solved(int index, t_pack *final, int value, int avg)
+{
+	int		*solution_array;
+	long	steps;
+	
+	solution_array = final->array;
+	steps = 0;
+	while (solution_array[index] != value)
+	{
+		steps++;
+		index++;
+		if (index >= final->size)
+			index = 0;
+	}
+	steps = (steps > avg) ? (steps - avg) : steps;
+	return (steps);
 }
 
-long	calc_h_value_riseing_revise(t_list *list_a, t_list *list_b, t_pack *final)
+long	calc_h_value_stack_a(t_pack *final, t_list *list_a)
+{
+	int		*solution_array;
+	int		index;
+	t_list	*current;
+	int		avg;
+	long	h_value;
+
+	if (final == NULL || list_a == NULL)
+		return (0);
+	solution_array = final->array;
+	if (solution_array == NULL)
+		return (0);
+	index = final->size - 1;
+	current = list_a;
+	avg = (final->size / 2) + 1;
+	h_value = 0;
+	while (index >= 0 && current != NULL)
+	{
+		if (current-> value != solution_array[index])
+			h_value += steps_to_solved(index, final, current->value, avg);
+		current = current->prev;
+		index--;
+	}
+	return (h_value);
+}
+
+long	calc_h_value_stack_b(t_pack *final, t_list *list_b)
+{
+	int		*solution_array;
+	int		index;
+	t_list	*current;
+	int		avg;
+	long	h_value;
+
+	if (final == NULL || list_b == NULL)
+		return (0);
+	solution_array = final->array;
+	if (solution_array == NULL)
+		return (0);
+	index = final->size - 1;
+	current = list_b;
+	avg = (final->size / 2) + 1;
+	h_value = 0;
+	while (index >= 0 && current != NULL)
+	{
+		if (current-> value != solution_array[index])
+			h_value += 1 + steps_to_solved(index, final, current->value, avg);
+		else
+			h_value += 1;
+		current = current->next;
+		index--;
+	}
+	return (h_value);
+}
+
+long	calc_h_value(t_list *list_a, t_list *list_b, t_pack *final)
 {
 	int		*the_solution_array;
 	int		index;
@@ -779,11 +861,14 @@ long	calc_h_value_riseing_revise(t_list *list_a, t_list *list_b, t_pack *final)
 	the_solution_array = final->array;
 	index = -1;
 	h_value = 0;
-	if(list_a)
+	if(list_a != NULL)
+		h_value += calc_h_value_stack_a(final, list_a);
+	if (list_b != NULL)
+		h_value += calc_h_value_stack_b(final, list_b);
 	return (h_value);
 }
 
-int		calc_weight(t_node *node, t_pack *final, t_pack *pack)
+long	calc_weight(t_node *node, t_pack *final, t_pack *pack)
 {
 	t_stack	*stack_a;
 	t_stack	*stack_b;
@@ -800,7 +885,7 @@ int		calc_weight(t_node *node, t_pack *final, t_pack *pack)
 		apply_rule(stack_a, stack_b, the_move_list[index]);
 		index++;
 	}
-	h_value = calc_h_value_riseing(stack_a->front, stack_b->back, final);
+	h_value = calc_h_value(stack_a->back, stack_b->front, final);
 
 	return (h_value + (node->steps));
 }
@@ -883,27 +968,27 @@ int		ft_calc_weight(t_node *node, t_list *final, t_pack *pack)
 */
 void		apply_rule(t_stack *a, t_stack *b, char *rule)
 {
-	if (ft_strcmp("SA", rule) == 0)
+	if (ft_strcmp("sa", rule) == 0)
 		ft_SA_SB(a);
-	else if (ft_strcmp("SB", rule) == 0)
+	else if (ft_strcmp("sb", rule) == 0)
 		ft_SA_SB(b);
-	else if (ft_strcmp("SS", rule) == 0)
+	else if (ft_strcmp("ss", rule) == 0)
 		ft_SS(a, b);
-	else if (ft_strcmp("PA", rule) == 0)
+	else if (ft_strcmp("pa", rule) == 0)
 		ft_PA_PB(b, a);
-	else if (ft_strcmp("PB", rule) == 0)
+	else if (ft_strcmp("pb", rule) == 0)
 		ft_PA_PB(a, b);
-	else if (ft_strcmp("RA", rule) == 0)
+	else if (ft_strcmp("ra", rule) == 0)
 		ft_RA_RB(a);
-	else if (ft_strcmp("RB", rule) == 0)
+	else if (ft_strcmp("rb", rule) == 0)
 		ft_RA_RB(b);
-	else if (ft_strcmp("RR", rule) == 0)
+	else if (ft_strcmp("rr", rule) == 0)
 		ft_RR(a, b);
-	else if (ft_strcmp("RRA", rule) == 0)
+	else if (ft_strcmp("rra", rule) == 0)
 		ft_RRA_RRB(a);
-	else if (ft_strcmp("RRB", rule) == 0)
+	else if (ft_strcmp("rrb", rule) == 0)
 		ft_RRA_RRB(b);
-	else if (ft_strcmp("RRR", rule) == 0)
+	else if (ft_strcmp("rrr", rule) == 0)
 		ft_RRR(a, b);
 }
 
