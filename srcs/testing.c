@@ -208,14 +208,14 @@ static int	is_rule_rev(char *parent_rule, char *rule_to_make)
 {
 	if (rule_to_make && parent_rule)
 	{
-	if (!ft_strcmp("sa", parent_rule) &&
-			(ft_strcmp("sa", rule_to_make) || ft_strcmp("ss", rule_to_make)))
+	if (!ft_strcmp("sa", parent_rule) && 
+			(!ft_strcmp("sa", rule_to_make) || !ft_strcmp("ss", rule_to_make)))
 		return (TRUE);
 	else if (!ft_strcmp("sb", parent_rule) &&
 			(!ft_strcmp("sb", rule_to_make) || !ft_strcmp("ss", rule_to_make)))
 		return (TRUE);
 	else if (!ft_strcmp("ss", parent_rule) &&
-			!(ft_strcmp("sb", rule_to_make) || !ft_strcmp("ss", rule_to_make) ||
+			(!ft_strcmp("sb", rule_to_make) || !ft_strcmp("ss", rule_to_make) ||
 			!ft_strcmp("ss", rule_to_make)))
 		return (TRUE);
 	else if (!ft_strcmp("pa", parent_rule) &&
@@ -584,7 +584,7 @@ char		**moves_to_current(t_node *node)
 		{
 			moves_list[index] = ft_strdup((const char *)current->rule);
 			index--;
-			current = node->parent;
+			current = current->parent;
 		}
 	} 
 	return (moves_list);
@@ -859,9 +859,7 @@ long	calc_h_value_stack_b(t_pack *final, t_list *list_b)
 	while (index >= 0 && current != NULL)
 	{
 		if (current-> value != solution_array[index])
-			h_value += 1 + steps_to_solved(index, final, current->value, avg);
-		else
-			h_value += 1;
+			h_value += steps_to_solved(index, final, current->value, avg);
 		current = current->next;
 		index--;
 	}
@@ -870,13 +868,8 @@ long	calc_h_value_stack_b(t_pack *final, t_list *list_b)
 
 long	calc_h_value(t_list *list_a, t_list *list_b, t_pack *final)
 {
-	int		*the_solution_array;
-	int		index;
-	t_list	*current;
 	long	h_value;
 
-	the_solution_array = final->array;
-	index = -1;
 	h_value = 0;
 	if(list_a != NULL)
 		h_value += calc_h_value_stack_a(final, list_a);
@@ -884,7 +877,7 @@ long	calc_h_value(t_list *list_a, t_list *list_b, t_pack *final)
 		h_value += calc_h_value_stack_b(final, list_b);
 	return (h_value);
 }
-
+// ----------- change the weight calculation to favour stack b a bit more ------------------
 long	calc_weight(t_node *node, t_pack *final, t_pack *pack)
 {
 	t_stack	*stack_a;
