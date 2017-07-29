@@ -22,6 +22,6 @@ int		main(int argc, char **argv)
 		return (1);
 	if (!(verify_args(argv[1], &pack)))
 		return (1);
-	ft_putstr("winner winner chicken dinner");
+	ft_putstr("winner winner chicken dinner\n");
 	return (0);
 }

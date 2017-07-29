@@ -1,6 +1,6 @@
-#include "./ft_push_swap.h"
+#include "../push_swap.h"
 
-t_node *ft_create_node(t_array *array, t_node *parent, t_list *final, char *rule)  //PASSED
+t_node *ft_create_node(t_pack *array, t_node *parent, t_list *final, char *rule)  //PASSED
 {
     t_node *node;
 
@@ -13,6 +13,7 @@ t_node *ft_create_node(t_array *array, t_node *parent, t_list *final, char *rule
         node->steps = (parent->steps + 1);
     else
         node->steps = 0;
+    apply_rule(node, rule);
     node->weight = ft_calc_weight(node, final);
     return (node);
 }
@@ -49,6 +50,8 @@ int     ft_calc_weight(t_node *node, t_list *final) //PASSED
     }
     return (count);
 }
+
+
 /*
 int     ft_calc_weight(t_node *node, t_list *final)
 {

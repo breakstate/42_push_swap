@@ -1,7 +1,7 @@
 #include "push_swap.h"
 
 /*
-**function moves up the parent nodes storing moves made
+** function moves up the parent nodes storing moves made
 ** return a list of the moves
 ** have to free return
 */

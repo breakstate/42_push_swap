@@ -27,7 +27,7 @@ typedef struct		s_lists
 {
 	void			*content;
 	size_t			content_size;
-	struct s_list	*next;
+	struct s_lists	*next;
 }					t_lists;
 
 t_lists				*ft_lstnew(const void *content, size_t content_size);

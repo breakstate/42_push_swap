@@ -9,8 +9,9 @@ t_stack		*copy_linked_stack(t_stack *stack)
 =======
 // this is done wrong, you get t_stack not t_list will need to sort
 
-t_list		*copy_linked_list(t_list *list)
+t_stack		*copy_stack(t_stack *stack, )
 {
+<<<<<<< HEAD
 	t_list	*new_list;
 	t_list	*current;
 >>>>>>> 3a965b6b1ea70ece59508dd2cda78e31af81d219:srcs/copy_linked_list.c
@@ -48,6 +49,15 @@ t_list		*copy_linked_list(t_list *list)
 		list = list->next;
 	}
 	current->next = NULL;
+=======
+	t_stack	*new_stack;
+	t_stack	*current;
+
+	if (stack == NULL)
+		return NULL;
+	new_stack = (t_stack *)malloc(sizeof(t_stack));
+	new_stack->front = ft_create_stack(pack->int_arr, pack->elements)
+>>>>>>> final
 	return (new_list);
 }
 >>>>>>> 3a965b6b1ea70ece59508dd2cda78e31af81d219:srcs/copy_linked_list.c

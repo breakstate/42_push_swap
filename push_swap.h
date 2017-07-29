@@ -12,10 +12,12 @@
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
-# include "libft.h"
-# include "ft_forbidden.h"
+# include <libft.h>
 # define _FRONT 1
 # define _BACK 0
+
+typedef long long t_ll;
+typedef unsigned long long t_ull;
 
 /*
 **	-----------------\
@@ -38,7 +40,7 @@ typedef struct		s_stack
 
 typedef struct		s_node
 {
-	int				weight;
+	double			weight;
 	struct s_node	*parent;
 <<<<<<< HEAD
 	char			*move;
@@ -54,43 +56,11 @@ typedef struct		s_node
 	int				steps;
 }					t_node;
 
-/*
-** maybe make one struct
-*/
-
-typedef struct		s_open
+typedef struct		s_nodelist
 {
-	t_node			*node;
-	struct s_open	*next;
-}					t_open;
-
-typedef struct		s_close
-{
-	t_node			*node;
-	struct s_closed *next;
-}					t_close;
-
-
-/*
-** already exists
-*/
-
-typedef struct		s_array
-{
-	int				*array;
-	size_t			size;
-}					t_array;
-
-/*
-** fix below
-*/
-
-typedef struct		s_sets
-{
-	t_list			*open;
-	t_list			*closed;
-	t_list			*solved;
-}					t_sets;
+	t_node				*node;
+	struct s_nodelist	*next;
+}					t_nodelist;
 
 >>>>>>> 3a965b6b1ea70ece59508dd2cda78e31af81d219
 /*
@@ -101,14 +71,17 @@ typedef struct		s_sets
 
 typedef struct		s_pack
 {
-	int				*int_arr;
-	int				elements;
+	int				*array;
+	int				size;
 }					t_pack;
 <<<<<<< HEAD
 =======
 
+<<<<<<< HEAD
 >>>>>>> 3a965b6b1ea70ece59508dd2cda78e31af81d219
 
+=======
+>>>>>>> final
 /*
 **	in file ps_verify.c
 */
@@ -167,8 +140,6 @@ void				apply_rule(char *move, t_stack *a, t_stack *b);
 int					assaign_weight(t_node *node);
 =======
 t_list			*copy_linked_list(t_list *list);
-void			ft_add_elem_front(t_list **top, int value);
-t_list			*ft_add_elem_back(t_list **back, int value);
 t_stack			*ft_init_stack(int *a, int size);
 t_list			*ft_pop_out_back(t_list **back);
 t_list			*ft_pop_out_front(t_list **front);
@@ -176,9 +147,12 @@ void			ft_free_list(t_list **list);
 t_stack			*ft_create_stack(void);
 t_list			*ft_create_elem_back(t_list **back, int value);
 void			ft_create_elem_front(t_list **top, int value);
-t_node			*ft_create_node(t_array *array, t_node *parent, t_list *final_state, char *rule);
-void			ft_add_to_openset(t_open **open, t_node *node);
+t_node			*ft_create_node(t_pack *pack, t_node *parent, t_pack *final, char *rule);
+void			ft_add_to_openset(t_nodelist **open, t_node *node);
+void			ft_pop_to_closedset(t_nodelist **closed, t_nodelist **open);
 void			ft_free_stack(t_stack *stack);
+void			ft_add_elem(t_list **list, t_list *elem, int front);
+
 
 /*
 **	-------------------------\
@@ -194,5 +168,25 @@ void			ft_RRA_RRB(t_stack *a);
 void			ft_RR(t_stack *a, t_stack *b);
 void			ft_RRR(t_stack *a, t_stack *b);
 >>>>>>> 3a965b6b1ea70ece59508dd2cda78e31af81d219
+
+/*
+**	-------------------------\
+**	jerome functions
+**	-------------------------/
+*/
+
+char		**move_list(t_node *node);
+void		a_star(t_pack *pack);
+int			expand(t_node *node, t_nodelist **open,
+					t_pack	*final_state, t_pack *pack);
+void		expand_open_set(t_nodelist **open, t_pack *final_state,
+				t_pack *pack, t_stack *stack_a);
+char		**create_list_of_all_moves(void);
+void		sort_arr(int **arr, int size);
+double		calc_weight(t_node *node, t_pack *final, t_pack *pack);
+void		print_move_list(t_node *node);
+char		**moves_to_current(t_node *node);
+void		apply_rule(t_stack **a, t_stack **b, char *rule);
+int			useless_rule(t_node *node, char *move);
 
 #endif

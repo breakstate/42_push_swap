@@ -6,7 +6,7 @@
 /*   By: bmoodley <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/17 15:42:16 by bmoodley          #+#    #+#             */
-/*   Updated: 2017/07/18 10:34:14 by bmoodley         ###   ########.fr       */
+/*   Updated: 2017/07/21 15:47:54 by bmoodley         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,17 +128,17 @@ int			arr_stoi(char **arg, t_pack *pack)
 	int		i;
 
 	i = 0;
-	pack->elements = 0;
-	while (arg[pack->elements])
-		pack->elements++;
-	pack->int_arr = (int *)ft_memalloc(sizeof(int) * pack->elements);
-	if (pack->int_arr == NULL)
+	pack->size = 0;
+	while (arg[pack->size])
+		pack->size++;
+	pack->array = (int *)ft_memalloc(sizeof(int) * pack->size);
+	if (pack->array == NULL)
 	{
 		return (0);
 	}
 	while (arg[i])
 	{
-		pack->int_arr[i] = ft_atoi(arg[i]);
+		pack->array[i] = ft_atoi(arg[i]);
 		i++;
 	}
 	return (1);
