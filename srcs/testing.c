@@ -282,7 +282,7 @@ int			expand(t_node *node, t_nodelist **open,
 	char	**list_of_all_moves;
 	t_node	*current;
 
-	if (node->weight <= (long)node->steps)
+	if (node->weight <= (double)node->steps)
 		return (FALSE);
 	i = -1;
 	list_of_all_moves = create_list_of_all_moves();
@@ -794,10 +794,10 @@ long	calc_h_value_riseing(t_list *list_a, t_list *list_b, t_pack *final)
 	return (h_value);
 }*/
 
-long	steps_to_solved(int index, t_pack *final, int value, int avg)
+double	steps_to_solved_pos(int index, t_pack *final, int value, int avg)
 {
 	int		*solution_array;
-	long	steps;
+	double	steps;
 	
 	solution_array = final->array;
 	steps = 0;
@@ -812,13 +812,13 @@ long	steps_to_solved(int index, t_pack *final, int value, int avg)
 	return (steps);
 }
 
-long	calc_h_value_stack_a(t_pack *final, t_list *list_a)
+double	calc_h_value_stack_a(t_pack *final, t_list *list_a)
 {
 	int		*solution_array;
 	int		index;
 	t_list	*current;
 	int		avg;
-	long	h_value;
+	double	h_value;
 
 	if (final == NULL || list_a == NULL)
 		return (0);
@@ -832,20 +832,20 @@ long	calc_h_value_stack_a(t_pack *final, t_list *list_a)
 	while (index >= 0 && current != NULL)
 	{
 		if (current-> value != solution_array[index])
-			h_value += steps_to_solved(index, final, current->value, avg);
+			h_value += steps_to_solved_pos(index, final, current->value, avg);
 		current = current->prev;
 		index--;
 	}
 	return (h_value);
 }
 
-long	calc_h_value_stack_b(t_pack *final, t_list *list_b)
+double	calc_h_value_stack_b(t_pack *final, t_list *list_b)
 {
 	int		*solution_array;
 	int		index;
 	t_list	*current;
 	int		avg;
-	long	h_value;
+	double	h_value;
 
 	if (final == NULL || list_b == NULL)
 		return (0);
@@ -859,16 +859,16 @@ long	calc_h_value_stack_b(t_pack *final, t_list *list_b)
 	while (index >= 0 && current != NULL)
 	{
 		if (current-> value != solution_array[index])
-			h_value += steps_to_solved(index, final, current->value, avg);
+			h_value += steps_to_solved_pos(index, final, current->value, avg);
 		current = current->next;
 		index--;
 	}
-	return (h_value);
+	return (h_value + 0.01);
 }
 
-long	calc_h_value(t_list *list_a, t_list *list_b, t_pack *final)
+double	calc_h_value(t_list *list_a, t_list *list_b, t_pack *final)
 {
-	long	h_value;
+	double	h_value;
 
 	h_value = 0;
 	if(list_a != NULL)
@@ -878,13 +878,13 @@ long	calc_h_value(t_list *list_a, t_list *list_b, t_pack *final)
 	return (h_value);
 }
 // ----------- change the weight calculation to favour stack b a bit more ------------------
-long	calc_weight(t_node *node, t_pack *final, t_pack *pack)
+double	calc_weight(t_node *node, t_pack *final, t_pack *pack)
 {
 	t_stack	*stack_a;
 	t_stack	*stack_b;
 	char	**the_move_list;
 	t_ll	index;
-	long	h_value;
+	double	h_value;
 
 	stack_a = ft_init_stack(pack->array, pack->size);
 	stack_b = ft_init_stack(NULL, 0);
