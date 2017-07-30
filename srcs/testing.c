@@ -572,22 +572,27 @@ char		**moves_to_current(t_node *node)
 	char	**moves_list;
 	t_ll	index;
 	t_node	*current;
-
-	moves_list = (char **)malloc(sizeof(char *) * (node->steps + 1));
-	if (moves_list)
-	{
-		current = node;
-		moves_list[node->steps] = (char *)malloc(sizeof(char) * 1);
-		moves_list[node->steps] = NULL;
-		index = node->steps - 1;
-		while ((index >= 0) && (current != NULL) && (current->rule != NULL))
+	if (node)
+		if (node->rule)
 		{
-			moves_list[index] = ft_strdup((const char *)current->rule);
-			index--;
-			current = current->parent;
+			moves_list = (char **)malloc(sizeof(char *) * (node->steps + 1));
+			if (moves_list)
+			{
+				current = node;
+				moves_list[node->steps] = (char *)malloc(sizeof(char) * 1);
+				moves_list[node->steps] = NULL;
+				index = node->steps - 1;
+				while ((index >= 0) && (current != NULL) 
+						&& (current->rule != NULL))
+				{
+					moves_list[index] = ft_strdup((const char *)current->rule);
+					index--;
+					current = current->parent;
+				}
+			}
+			return (moves_list);
 		}
-	} 
-	return (moves_list);
+	return (NULL);
 }
 
 /* 
@@ -742,23 +747,31 @@ char		**create_list_of_all_moves(void)
 */
 t_node	*ft_create_node(t_pack *pack, t_node *parent, t_pack *final, char *rule)	//PASSED
 {
-	t_node *node;
+	t_node	*node;
+	char	**the_move_list;
+	int		index;
 
 	node = (t_node*)malloc(sizeof(t_node));
+	if (!node)
+		return (node);
 	node->rule = rule;
 	node->parent = parent;
 	node->weight = 0;
-	if(parent)
-	{
-		node->a = parent->a;
-		node->b = parent->b;
+	node->a = ft_init_stack(pack->array, pack->size);
+	node->b = ft_init_stack(NULL, 0);
+	if (parent)
 		node->steps = (parent->steps + 1);
-	}
 	else
-	{
 		node->steps = 0;
-		node->a = ft_init_stack(pack->array, pack->size);
-		node->b = ft_init_stack(pack->array, 0);
+	the_move_list = moves_to_current(node);
+	if (the_move_list)
+	{
+		index = 0;
+		while (the_move_list[index])// && index < node->steps)
+		{
+			apply_rule(&(node->a), &(node->b), the_move_list[index]);
+			index++;
+		}
 	}
 	node->weight = calc_weight(node, final, pack);
 	return (node);
@@ -831,7 +844,7 @@ double	calc_h_value_stack_a(t_pack *final, t_list *list_a)
 	h_value = 0;
 	while (index >= 0 && current != NULL)
 	{
-		if (current-> value != solution_array[index])
+		if (current->value != solution_array[index])
 			h_value += steps_to_solved_pos(index, final, current->value, avg);
 		current = current->prev;
 		index--;
@@ -880,22 +893,9 @@ double	calc_h_value(t_list *list_a, t_list *list_b, t_pack *final)
 // ----------- change the weight calculation to favour stack b a bit more ------------------
 double	calc_weight(t_node *node, t_pack *final, t_pack *pack)
 {
-	t_stack	*stack_a;
-	t_stack	*stack_b;
-	char	**the_move_list;
-	t_ll	index;
 	double	h_value;
 
-	stack_a = ft_init_stack(pack->array, pack->size);
-	stack_b = ft_init_stack(NULL, 0);
-	the_move_list = moves_to_current(node);
-	index = 0;
-	while (the_move_list[index])// && index < node->steps)
-	{
-		apply_rule(&stack_a, &stack_b, the_move_list[index]);
-		index++;
-	}
-	h_value = calc_h_value(stack_a->back, stack_b->front, final);
+	h_value = calc_h_value(node->a->back, node->b->front, final);
 
 	return (h_value + (node->steps));
 }
