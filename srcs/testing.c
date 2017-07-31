@@ -275,7 +275,17 @@ int		useless_rule(t_node *node, char *move)
 	return (FALSE);
 }
 
-int			expand(t_node *node, t_nodelist **open,
+int			is_current_in_open(t_nodelist **closed, t_node *current)
+{
+	if (*closed == NULL || current == NULL)
+		return (FALSE);
+	if ((*closed)->node == NULL)
+		return (FALSE);
+	////////////////////////--------------------------------------------------------------------
+	
+}
+
+int			expand(t_node *node, t_sets *sets,
 					t_pack	*final_state, t_pack *pack)
 {
 	int		i;
@@ -292,7 +302,9 @@ int			expand(t_node *node, t_nodelist **open,
 				|| (useless_rule(node, list_of_all_moves[i]) == TRUE))
 			continue ;
 		current = ft_create_node(pack, node, final_state, list_of_all_moves[i]);
-		ft_add_to_openset(open, current);
+		if (is_current_in_open(sets->closed, current) == TRUE)
+			continue ;
+		ft_add_to_openset(sets->open, current);
 	}
 //	ft_free_2d_arr((void ***)&list_of_all_moves, 11); 
 	return (TRUE);
@@ -317,14 +329,21 @@ void		expand_open_set(t_nodelist **open, t_pack *final_state,
 {
 	t_nodelist	*closed;
 	t_node		*current;
+	t_sets		*sets;
 
 	closed = NULL;
 	current = NULL;
+	sets = (t_sets*)malloc(sizeof(t_sets));
+	if (sets)
+	{
+		sets->open = open;
+		sets->closed = &closed;
+	}
 	while (*open)
 	{
 		current = (*open)->node;
-		ft_pop_to_closedset(&closed, open);
- 		if (expand(current, open, final_state, pack) == FALSE)
+		ft_pop_to_closedset(sets->closed. sets->open);
+ 		if (expand(current, sets, final_state, pack) == FALSE)
 		{
 			print_move_list(current);
 			break ;

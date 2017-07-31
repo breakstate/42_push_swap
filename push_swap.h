@@ -42,6 +42,12 @@ typedef struct		s_nodelist
 	struct s_nodelist	*next;
 }					t_nodelist;
 
+typedef struct		s_sets
+{
+	t_nodelist			**open;
+	t_nodelist			**closed;
+}					t_sets;
+
 /*
 **	-----------------\
 **	struct for int arr
