@@ -4,9 +4,6 @@
 # define _FRONT 1
 # define _BACK 0
 
-typedef long long t_ll;
-typedef unsigned long long t_ull;
-
 /*
 **	-----------------\
 **	structs structure
@@ -119,7 +116,7 @@ void			ft_RRR(t_stack *a, t_stack *b);
 
 char		**move_list(t_node *node);
 void		a_star(t_pack *pack);
-int			expand(t_node *node, t_nodelist **open,
+int			expand(t_node *node, t_sets *sets,
 					t_pack	*final_state, t_pack *pack);
 void		expand_open_set(t_nodelist **open, t_pack *final_state,
 				t_pack *pack, t_stack *stack_a);

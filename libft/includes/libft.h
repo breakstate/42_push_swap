@@ -18,6 +18,7 @@
 # include "get_next_line.h"
 # define TRUE 1
 # define FALSE 0
+# define ERROR -2147483648
 # define INT_MIN -2147483648
 # define INT_MAX 2147483647
 

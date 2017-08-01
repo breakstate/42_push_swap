@@ -21,7 +21,7 @@
 int		main(int argc, char **argv)
 {
 	t_pack	pack;
-	t_ll	i;
+	int		i;
 
 	i = 0;
 //	printf("---> hello");
@@ -275,12 +275,48 @@ int		useless_rule(t_node *node, char *move)
 	return (FALSE);
 }
 
-int			is_current_in_open(t_nodelist **closed, t_node *current)
+int			compare_stack(t_stack *old, t_stack *new)
 {
-	if (*closed == NULL || current == NULL)
-		return (FALSE);
+	t_list	*old_current;
+	t_list	*new_current;
+
+	if (old == NULL && new == NULL)
+		return (0);
+	if (old == NULL || new == NULL)
+		return (ERROR);
+	old_current = old->front;
+	new_current = new->front;
+	while (old_current != NULL && new_current != NULL)
+	{
+		if (old_current->value != new_current->value)
+			return (old_current->value - new_current->value);
+		old_current = old_current->next;
+		new_current = new_current->next;
+	}
+	if (old_current == NULL && new_current == NULL)
+		return (0);
+	return (1);
+}
+
+int			is_current_in_open(t_nodelist **closed, t_node *new_node)
+{
+	t_nodelist		*current;
+
+	if (*closed == NULL || new_node == NULL)
+		return (ERROR);
 	if ((*closed)->node == NULL)
-		return (FALSE);
+		return (ERROR);
+	current = *closed;
+	while (current != NULL)
+	{
+		if (current->node == NULL)
+			return (ERROR);
+		if(compare_stack(current->node->a, new_node->a) == 0)
+			if(compare_stack(current->node->b, new_node->b) == 0)
+				return (TRUE);
+		current = current->next;
+	}
+	return (FALSE);
 	////////////////////////--------------------------------------------------------------------
 	
 }
@@ -303,7 +339,10 @@ int			expand(t_node *node, t_sets *sets,
 			continue ;
 		current = ft_create_node(pack, node, final_state, list_of_all_moves[i]);
 		if (is_current_in_open(sets->closed, current) == TRUE)
+		{
+			//free(current);
 			continue ;
+		}
 		ft_add_to_openset(sets->open, current);
 	}
 //	ft_free_2d_arr((void ***)&list_of_all_moves, 11); 
@@ -316,6 +355,8 @@ void		print_move_list(t_node *node)
 	int		index;
 
 	final_move_list = moves_to_current(node);
+	if (final_move_list == NULL)
+		return ;
 	index = 0;
 	while (final_move_list[index])
 	{
@@ -342,7 +383,7 @@ void		expand_open_set(t_nodelist **open, t_pack *final_state,
 	while (*open)
 	{
 		current = (*open)->node;
-		ft_pop_to_closedset(sets->closed. sets->open);
+		ft_pop_to_closedset(sets->closed, sets->open);
  		if (expand(current, sets, final_state, pack) == FALSE)
 		{
 			print_move_list(current);
@@ -589,7 +630,7 @@ t_stack		*ft_init_stack(int *a, int size)
 char		**moves_to_current(t_node *node)
 {
 	char	**moves_list;
-	t_ll	index;
+	int		index;
 	t_node	*current;
 	if (node)
 		if (node->rule)
