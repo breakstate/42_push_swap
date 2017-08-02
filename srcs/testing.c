@@ -371,6 +371,7 @@ void		expand_open_set(t_nodelist **open, t_pack *final_state,
 	t_nodelist	*closed;
 	t_node		*current;
 	t_sets		*sets;
+	int			count;
 
 	closed = NULL;
 	current = NULL;
@@ -380,8 +381,10 @@ void		expand_open_set(t_nodelist **open, t_pack *final_state,
 		sets->open = open;
 		sets->closed = &closed;
 	}
+	count = 0;
 	while (*open)
 	{
+		printf("the amount of expanded nodes is [%i]\n", count++);
 		current = (*open)->node;
 		ft_pop_to_closedset(sets->closed, sets->open);
  		if (expand(current, sets, final_state, pack) == FALSE)
@@ -1115,6 +1118,8 @@ void	ft_PA_PB(t_stack *from, t_stack *to)
 
 	if(from->front)
 	{
+		if (from->back == from->front)
+			from->back = NULL;
 		elem = ft_pop_out_front(&(from->front));
 		ft_add_elem(&(to->front), elem, _FRONT);
 		if(to->back == NULL)
@@ -1131,7 +1136,7 @@ void	ft_RA_RB(t_stack *a)
 	if(a->front)
 	{
 		elem = ft_pop_out_front(&(a->front));
-		if(a->back == a->front)
+		if(a->back == a->front && a->front != NULL)
 		{
 			(a->front)->next = elem;
 			elem->prev = a->front;
