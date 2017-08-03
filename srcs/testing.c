@@ -365,6 +365,29 @@ void		print_move_list(t_node *node)
 	}
 }
 
+void		test_print(t_node *node)
+{
+	int i = 0;
+	t_list *current;
+
+	current = node->a->front;
+	printf ("\n        stack a = [");
+	while (current)
+	{
+		printf("%i ", current->value);
+		current = current->next;
+	}
+	printf("]");
+	current = node->b->front;
+	printf ("\n        stack b = [");
+	while (current)
+	{
+		printf("%i ", current->value);
+		current = current->next;
+	}
+	printf("]");
+}
+
 void		expand_open_set(t_nodelist **open, t_pack *final_state,
 				t_pack *pack, t_stack *stack_a)
 {
@@ -384,15 +407,17 @@ void		expand_open_set(t_nodelist **open, t_pack *final_state,
 	count = 0;
 	while (*open)
 	{
-		printf("the amount of expanded nodes is [%i]\n", count++);
+		printf("\nthe amount of expanded nodes is [%i]", count++);
 		current = (*open)->node;
+		printf("\n    the wigth of the node is [%lf]", current->weight);
+		test_print(current);
 		ft_pop_to_closedset(sets->closed, sets->open);
  		if (expand(current, sets, final_state, pack) == FALSE)
 		{
+			printf("\nthe answer is\n");
 			print_move_list(current);
 			break ;
 		}
-		//ft_pop_to_closedset(&closed, open);
 	}
 //	free(open);
 //	free(closed);
@@ -888,7 +913,7 @@ double	steps_to_solved_pos(int index, t_pack *final, int value, int avg)
 	return (steps);
 }
 
-double	calc_h_value_stack_a(t_pack *final, t_list *list_a)
+/*double	calc_h_value_stack_a(t_pack *final, t_list *list_a)
 {
 	int		*solution_array;
 	int		index;
@@ -940,17 +965,101 @@ double	calc_h_value_stack_b(t_pack *final, t_list *list_b)
 		index--;
 	}
 	return (h_value + 0.01);
+}*/
+
+int		index_of_current_val(int value, t_pack *final, int index)
+{
+	int		pos;
+	int		*array;
+
+	array = final->array;
+	pos = -1;
+	while (++pos < final->size)
+	{
+		if (value == array[pos])
+			return (pos);
+	}
+	return (-1);
 }
 
-double	calc_h_value(t_list *list_a, t_list *list_b, t_pack *final)
+double	calc_block_stack_a(t_pack *final, t_stack *stack_a, int avg)
+{
+	t_list	*current;
+	int		index;
+	int		blocks;
+	int		pos;
+	double	dis;
+
+	index = final->size;
+	pos = 0;
+	current = stack_a->back;
+	dis = 0;
+	blocks = 0;
+	while (--index >= 0 && current != NULL)
+	{
+		if (current->value != (final->array)[index])
+		{
+			pos = index_of_current_val(current->value, final, index);
+			if (pos > 0 && current->prev != NULL)
+				if (current->prev->value == (final->array)[pos - 1])
+				{
+					current = current->prev;
+					continue ;
+				}
+			blocks++;
+			dis += steps_to_solved_pos(index, final, current->value, avg);
+		}
+		current = current->prev;
+	}
+	return ((dis == 0) ? 0 : (dis / blocks));
+}
+
+double	calc_block_stack_b(t_pack *final, t_stack *stack_b, int avg)
+{
+	t_list	*current;
+	int		index;
+	int		blocks;
+	int		pos;
+	double	dis;
+
+	index = -1;
+	current = stack_b->back;
+	dis = 0;
+	blocks = 1;
+	while (++index < final->size && current != NULL)
+	{
+		if (current->value != (final->array)[index])
+		{
+			pos = index_of_current_val(current->value, final, index);
+			if (pos > 0 && current->prev != NULL)
+				if (current->prev->value == (final->array)[pos + 1])
+				{
+					current = current->prev;
+					continue ;
+				}
+			blocks++;
+			dis += 1 + steps_to_solved_pos(index, final, current->value, avg);
+		}
+		current = current->prev;
+	}
+	return ((dis == 0) ? (0 + blocks) : ((dis / blocks) + blocks));
+}
+
+double	calc_h_value(t_stack *stack_a, t_stack *stack_b, t_pack *final)
 {
 	double	h_value;
+	int		avg;
 
+	avg = (final->size / 2);
 	h_value = 0;
-	if(list_a != NULL)
-		h_value += calc_h_value_stack_a(final, list_a);
-	if (list_b != NULL)
-		h_value += calc_h_value_stack_b(final, list_b);
+	if(stack_a != NULL)
+		if (stack_a->back != NULL)
+			h_value += calc_block_stack_a(final, stack_a, avg);
+	//	h_value += calc_h_value_stack_a(final, list_a);
+	if (stack_b != NULL)
+		if (stack_b->back)
+			h_value += calc_block_stack_b(final, stack_b, avg);
+//		h_value += calc_h_value_stack_b(final, stack_b);
 	return (h_value);
 }
 // ----------- change the weight calculation to favour stack b a bit more ------------------
@@ -958,7 +1067,7 @@ double	calc_weight(t_node *node, t_pack *final, t_pack *pack)
 {
 	double	h_value;
 
-	h_value = calc_h_value(node->a->back, node->b->front, final);
+	h_value = calc_h_value(node->a, node->b, final);
 
 	return (h_value + (node->steps));
 }
