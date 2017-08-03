@@ -12,9 +12,13 @@ under current implimentaion (steps from solved (each element) stoping doubles)
 6 numbers tested
 	most nodes expanded 574 (6 3 2 5 1 4)
 	most rules to sort is 10 (6 3 1 5 2 4)
-7 numbers
+7 numbers					6		4		2	 1		5	7		3	
 	most nodes explored 1152 (522   417   252    19   461   751   268)
 	loops
 		(490 117 100 169 782 931 165) at 493 expanded node
 		(168   380   373   953   870   630   626) at 162
-		
+
+current implimentaion blocks
+
+7 numbers
+	most nodes explored 4051 (6 4 2 1 5 7 3) 12 moves
